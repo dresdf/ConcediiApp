@@ -2,8 +2,11 @@ package com.jademy.concediiapp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class DbUtils {
@@ -39,9 +42,34 @@ public class DbUtils {
 
     }
 
-    public User checklogin(String database, String dbUsername, String dbPassword, String username, String password) {
-        //TODO: implement login. use try{}catch
-        return null;
+    public User checklogin(String database, String dbUsername, String dbPassword, String username, String password) throws SQLException {
+
+        openConnection(database, dbUsername, dbPassword);
+
+        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "' AND pass='" + password + "'");
+
+        if (result.next()) {
+            //user exists. return User object 
+            return new User(result.getInt("id"), result.getString("uname"), result.getString("pass"), result.getString("first_name"), result.getString("last_name"), result.getString("email"), result.getString("poza"));
+        } else {
+            //user does not exist. return empty User
+            return new User();
+        }
+    }
+
+    public User createAccount(String prenume, String nume, String email, String username, String password, String date, String database, String dbUsername, String dbPassword) throws SQLException {
+
+        openConnection(database, dbUsername, dbPassword);
+        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
+                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
+        
+        statement.executeUpdate(sql);
+
+        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE id=(SELECT MAX(id) FROM prj_members)");
+
+        return new User(result.getInt("id"), result.getString("uname"), result.getString("pass"), result.getString("first_name"), result.getString("last_name"), result.getString("email"), result.getString("poza"));
+
     }
 
 }//end of class
+

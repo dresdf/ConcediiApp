@@ -5,15 +5,30 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title>PAGINA LOGIN - Echipa Jademy #8</title>
         <link href="css/login.css" rel="stylesheet" type="text/css">
-        <script src="js/script.js" type="text/javascript"></script>
+        <script type="text/javascript">function validateForm()
+            {
+                if (document.frm.id.value === "")
+                {
+                    alert("Numele utilizatorului nu trebuie sa fie gol");
+                    document.frm.id.focus();
+                    return false;
+                } else if (document.frm.password.value === "")
+                {
+                    alert("Va rugam introduceti o parola pentru utilizator");
+                    document.frm.password.focus();
+                    return false;
+                }
+            }</script>
     </head>
     <body>
         <br><br>
         <center><img src="css/img/Jademy.png" alt="Jademy.png"/></center>
-        
+
         <form action="loginServlet" method="post" name="frm" onSubmit="return validateForm()">
             <center><p>AUTENTIFICARE APLICATIE CONCEDII</p></center>
             <center><p> <%= (new java.util.Date())%></p></center>
+            <center><p><h2 class='form-signin-heading error'>${message}</h2></p></center>
+
             <table style="margin: auto;">
                 <tr>
                     <td>Utilizator :</td>
