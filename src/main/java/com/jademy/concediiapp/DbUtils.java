@@ -1,12 +1,9 @@
 package com.jademy.concediiapp;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 
 public class DbUtils {
@@ -27,33 +24,12 @@ public class DbUtils {
         }
         return true;
     }
-
-    //load properties file with database connection details
-    public HashMap<String, String> loadDbCredential() {
-        HashMap<String, String> result = new HashMap<>();
-        try {
-            //load the properties file
-            Properties props = new Properties();
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            InputStream input = classLoader.getResourceAsStream("database.properties");
-            props.load(input);
-
-            result.put("user", props.getProperty("dbuser"));
-            result.put("pass", props.getProperty("dbpassword"));
-            result.put("db", props.getProperty("db"));
-        } catch (Exception e) {
-            System.out.println("loadDbCredential() failed!*****************************************************");
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
+    
     //open a connection and create a statement object
-    public void openConnection() {
+    public void openConnection(String database, String username, String password) {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + loadDbCredential().get("db") + "?user=" + loadDbCredential().get("user") + "&password=" + loadDbCredential().get("pass"));
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + database + "?user=" + username + "&password=" + password);
             statement = conn.createStatement();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
             System.out.println("openConnection() failed!*******************************************************");
