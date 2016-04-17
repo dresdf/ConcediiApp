@@ -24,22 +24,24 @@ public class DbUtils {
         }
         return true;
     }
-    
+
     //open a connection and create a statement object
-    public void openConnection(String database, String username, String password) {
+    public void openConnection(String database, String dbUsername, String dbPassword) {
+
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + database + "?user=" + username + "&password=" + password);
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + database + "?user=" + dbUsername + "&password=" + dbPassword);
             statement = conn.createStatement();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
-            System.out.println("openConnection() failed!*******************************************************");
+            System.out.println("DbUtils.openConnection() failed!*******************************************************");
             e.printStackTrace();
         }
+
     }
-    
-     public User checklogin(String username, String password){
-         //TODO: implement login. use try{}catch
-         return null;
-     }
+
+    public User checklogin(String database, String dbUsername, String dbPassword, String username, String password) {
+        //TODO: implement login. use try{}catch
+        return null;
+    }
 
 }//end of class

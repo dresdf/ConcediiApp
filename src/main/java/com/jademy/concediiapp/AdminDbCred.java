@@ -8,7 +8,7 @@ import java.util.Properties;
  */
 public class AdminDbCred {
 
-    private AdminDbCred singleton = new AdminDbCred();
+    private static AdminDbCred singleton = new AdminDbCred();
 
     private String db;
     private String dbUsername;
@@ -26,7 +26,7 @@ public class AdminDbCred {
         return dbPassword;
     }
 
-    public AdminDbCred getInstance() {
+    public static AdminDbCred getInstance() {
         return singleton;
     }
 
