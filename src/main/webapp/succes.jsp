@@ -1,3 +1,4 @@
+<%@page import="com.jademy.concediiapp.DbUtils"%>
 <%@page import="com.jademy.concediiapp.Cerere"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.jfree.util.Rotation"%>
@@ -114,13 +115,13 @@
                     </c:forEach>
                 </table>
                 <p>CERERE NOUA DE CONCEDIU</p>
-                
+
                 <table>
                     <tr>
                         <td>Utilizator :</td>
                         <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
-<%-- TODO: servlet to load picture
-<td rowspan="7"><img src="/mavenproject3/pictureServlet?id=${currentuser.username}" width="200" border="1"/></td>--%>
+                            <%-- TODO: servlet to load picture
+                            <td rowspan="7"><img src="/mavenproject3/pictureServlet?id=${currentuser.username}" width="200" border="1"/></td>--%>
                         <td rowspan="7"><img src="css/img/skull.jpg" width="200" border="1"/></td>
 
                     </tr>
@@ -165,6 +166,107 @@
             </form>
         </div>
 
+        <!-- aprobare -->
+        <div id="aprobare">
+            <form action="aprobaServlet" method="post" name="frm1">
+                <p>Situatia concediilor de aprobat la data: <%= (new java.util.Date())%></p>
+                <p style="color: coral">${aprovalMessage}</p>
+                <table class="imagetable">
+                    <tr>
+                        <th>ID</th>
+                        <th>PRENUME</th>
+                        <th>NUME</th>
+                        <th>EMAIL</th>
+                        <th>TIP CONCEDIU</th>
+                        <th>DATA START</th>
+                        <th>DATA FINAL</th>
+                        <th>ZILE</th>
+                        <th>STATUS</th>
+                    </tr>
+                    <c:forEach items="${cereripending}" var="item">
+                        <tr>
+                            <td>${item.ID}</td>
+                            <td>${item.firstName}</td>
+                            <td>${item.lastName}</td>
+                            <td>${item.email}</td>
+                            <td>${item.tipConcediu}</td>
+                            <td>${item.dataStart}</td>
+                            <td>${item.dataFinal}</td>
+                            <td>${item.nrZile}</td>
+                            <td>${item.status}</td>
+                            <td><input type="submit" id="btnApprove" onclick="setHiddenId(${item.ID});" value="Aproba Cererea" /></td> 
+                            <td><input type="submit" id="btnReject" onclick="setHiddenIdReject(${item.ID});" value="Respinge Cererea"/></td> 
+                        </tr>
+                    </c:forEach>
+                </table>
+                <input type="hidden" name="hiddenid" id="hiddenid"/>   
+                <input type="hidden" name="hiddenidreject" id="hiddenidreject"/>  
+            </form>
+        </div>
+        <!-- rapoarte -->
+        <div id="rapoarte">
+            <form method="post">
+                <%@ page import="java.awt.*" %>
+                <%@ page import="java.io.*" %>
+                <%@ page import="org.jfree.chart.*" %>
+                <%@ page import="org.jfree.chart.entity.*" %>
+                <%@ page import ="org.jfree.data.general.*"%>
+                <%
+                    DbUtils dbu = new DbUtils();
+                    DefaultPieDataset dataset = dbu.showPieChart(currentUser);
+
+                    JFreeChart chart = ChartFactory.createPieChart("Raport concedii efectuate - " + currentUser.getUsername(), dataset, true, true, false);
+                    try {
+                        final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+//                    final File file1 = new File(getServletContext().getRealPath(".") + "/" + session.getAttribute("userid") + "_piechart.png");
+                        final File file1 = new File(getServletContext().getRealPath("/") + currentUser.getUsername() + "_piechart.png");
+
+                        System.out.println(getServletContext().getRealPath("."));
+                        ChartUtilities.saveChartAsPNG(file1, chart, 500, 400, info);
+                    } catch (Exception e) {
+                        out.println(e);
+                    }
+                %>      
+                <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
+                <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
+            </form>
+        </div>
+
+        <!-- profil -->
+        <div id="profil">
+            <form action="uploadServlet" method="post" name="frm2" enctype="multipart/form-data">
+                <p>ACTUALIZARE PROFIL UTILIZATOR</p>
+                <table>
+                    <tr>
+                        <td>Utilizator :</td>
+                        <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
+                        <td rowspan="7"><img src="/concediiapp/pictureServlet?userid=${currentuser.username}" width="200" border="1"/></td>
+                    </tr>
+                    <tr>
+                        <td>Prenume :</td>
+                        <td><input type="text" name="first_name" value="${currentuser.firstName}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Nume :</td>
+                        <td><input type="text" name="last_name" value="${currentuser.lastName}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Email :</td>
+                        <td><input type="text" name="email" value="${currentuser.email}"/></td>
+                    </tr> 
+                    <tr>
+                        <td colspan="2"><input type="file" name="file"/></td>
+                    </tr> 
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Upload" /></td>
+                    </tr> 
+                    <tr>
+                        <td></td>
+                    </tr> 
+                </table>
+                <input type="text" name="utilizator" id="utilizator" value="${currentuser.username}"/>
+            </form>
+        </div>
     </div>
 
 

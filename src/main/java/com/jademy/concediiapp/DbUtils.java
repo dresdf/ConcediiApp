@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class DbUtils {
 
@@ -101,5 +102,63 @@ public class DbUtils {
         }
     }
 
+    public List retrieveAprovalPending(User currentUser) throws SQLException {
+        List<Cerere> result = new ArrayList<>();
+        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
+
+        ResultSet rs = statement.executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "' AND status='INITIATA'");
+
+        while (rs.next()) {
+            Cerere crr = new Cerere(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("uname"), rs.getString("pass"), rs.getString("tipconcediu"), rs.getString("nrzile"), rs.getString("status"), rs.getDate("datastart"), rs.getDate("datafinal"));
+            result.add(crr);
+        }
+        return result;
+    }
+
+    public boolean aproveOrDenyCerere(String hiddenid, String hiddenidreject) {
+        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
+        String status = " ";
+        String UserId = " ";
+
+        if (!"".equals(hiddenid)) {
+            status = "APROBATA";
+            UserId = hiddenid.trim();
+        } else {
+            status = "RESPINSA";
+            UserId = hiddenidreject.trim();
+        }
+
+        String sql = "UPDATE prj_cereri SET status='" + status + "' WHERE id='" + UserId + "'";
+
+        try {
+            statement.executeUpdate(sql);
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public DefaultPieDataset showPieChart(User currentuser) throws SQLException {
+        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
+        ResultSet resultSet = statement.executeQuery("SELECT tipconcediu, sum(nrzile) AS total FROM prj_cereri WHERE uname='" + currentuser.getUsername() + "' " + "GROUP BY tipconcediu");
+
+        DefaultPieDataset resultDefaultPie = new DefaultPieDataset();
+        while (resultSet.next()) {
+            resultDefaultPie.setValue(resultSet.getString("tipconcediu"), Double.parseDouble(resultSet.getString("total")));
+        }
+        return resultDefaultPie;
+    }
+
+    public String getPoza(User currentUser, String username) throws SQLException {
+        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
+
+        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname = '" + username + "'");
+        if (result.next()) {
+            return result.getString("poza");
+        } else {
+            return "skull.jpg";
+        }
+    }
 }//end of class
 

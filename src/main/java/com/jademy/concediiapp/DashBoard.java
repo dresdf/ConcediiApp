@@ -26,6 +26,9 @@ public class DashBoard extends HttpServlet {
             List<Cerere> listaCereri = dbu.retrieveCereri(currentUser);
             request.setAttribute("listacereri", listaCereri);
             
+            List<Cerere> cereriPending = dbu.retrieveAprovalPending(currentUser);
+            request.setAttribute("cereripending", cereriPending);
+            
             request.getRequestDispatcher("/succes.jsp").forward(request, response);
         } catch (SQLException ex) {
             ex.printStackTrace();
