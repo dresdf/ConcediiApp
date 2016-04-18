@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +42,7 @@ public class CerereServlet extends HttpServlet {
         }
         long NrZile = ((DataFinal.getTime() - DataStart.getTime())) / (1000 * 60 * 60 * 24) + 1;
 
-        Cerere crr = new Cerere(Fname, Lname, Email, Uname, Pass, TipCO, Long.toString(NrZile), "INITIATA", DataStart, DataFinal);
+        Cerere crr = new Cerere(Fname, Lname, Email, Uname, Pass, TipCO, Long.toString(NrZile), "INITIATA", new java.sql.Date(DataStart.getTime()), new java.sql.Date(DataFinal.getTime()));
         boolean flag = dbu.recordCereri(crr);
 
         if (flag) {
@@ -53,7 +51,7 @@ public class CerereServlet extends HttpServlet {
             message = "Eroare la inregistrarea cererii de concediu in baza de date. Back to work!";
         }
             request.setAttribute("message", message);
-            request.getRequestDispatcher("/success.jsp");
+            request.getRequestDispatcher("/DashBoard").forward(request, response);
         
     }
 

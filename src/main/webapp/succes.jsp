@@ -114,12 +114,13 @@
                     </c:forEach>
                 </table>
                 <p>CERERE NOUA DE CONCEDIU</p>
-                <h2 class='form-signin-heading error'>${message}</h2>
+                
                 <table>
                     <tr>
                         <td>Utilizator :</td>
                         <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
-<%--                            <td rowspan="7"><img src="/mavenproject3/pictureServlet?id=${currentuser.username}" width="200" border="1"/></td>--%>
+<%-- TODO: servlet to load picture
+<td rowspan="7"><img src="/mavenproject3/pictureServlet?id=${currentuser.username}" width="200" border="1"/></td>--%>
                         <td rowspan="7"><img src="css/img/skull.jpg" width="200" border="1"/></td>
 
                     </tr>
@@ -153,6 +154,9 @@
                     <tr>
                         <td>Data Final :</td>
                         <td><input type="text" name="datafinal" id="datafinal"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="left"><p style="color: coral">${message}</p></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="left"><input type="submit" value="Depune Cererea"></td>
