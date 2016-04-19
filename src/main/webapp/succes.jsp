@@ -14,10 +14,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cerere Noua de Concediu</title>
         <link href="css/login.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
         <script type="text/javascript">
             $(function () {
@@ -120,10 +119,7 @@
                     <tr>
                         <td>Utilizator :</td>
                         <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
-                            <%-- TODO: servlet to load picture
-                            <td rowspan="7"><img src="/mavenproject3/pictureServlet?id=${currentuser.username}" width="200" border="1"/></td>--%>
-                        <td rowspan="7"><img src="css/img/skull.jpg" width="200" border="1"/></td>
-
+                        <td rowspan="7"><img src="pictureServlet?user=${currentuser.username}" width="200" border="1"/></td>
                     </tr>
                     <tr>
                         <td>Prenume :</td>

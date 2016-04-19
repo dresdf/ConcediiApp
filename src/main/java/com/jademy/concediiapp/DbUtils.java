@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -153,11 +151,13 @@ public class DbUtils {
     public String getPoza(User currentUser, String username) throws SQLException {
         openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
 
-        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname = '" + username + "'");
+        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "'");
+//        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname='drasec'");
+        
         if (result.next()) {
             return result.getString("poza");
         } else {
-            return "skull.jpg";
+            return "default-avatar.jpg";
         }
     }
 }//end of class

@@ -1,10 +1,6 @@
 package com.jademy.concediiapp;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,17 +18,17 @@ public class AprobaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DbUtils dbu = new DbUtils();
-        String message = "";
-        
+        String message;
+
         boolean flag = dbu.aproveOrDenyCerere(request.getParameter("hiddenid"), request.getParameter("hiddenidreject"));
-        
+
         if (flag) {
-            message = "Cererea de concediu a fost aprobata";
+            message = "Cererea de concediu nr. " + request.getParameter("hiddenid") + " a fost trimisa spre executare la " + new java.util.Date();
         } else {
             message = "Eroare la aprobare cererii de concediu in baza de date";
         }
-            request.setAttribute("aprovalMessage", message);
-            request.getRequestDispatcher("/DashBoard").forward(request, response);
+        request.setAttribute("aprovalMessage", message);
+        request.getRequestDispatcher("/DashBoard").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

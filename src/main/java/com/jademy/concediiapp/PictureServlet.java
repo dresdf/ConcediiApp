@@ -4,8 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -24,18 +22,19 @@ public class PictureServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DbUtils dbu = new DbUtils();
-        User currentUser = (User)request.getSession().getAttribute("currentuser");
+        User currentUser = (User) request.getSession().getAttribute("currentuser");
+        String userid = (String)request.getAttribute("user");
+//        String userid = currentUser.getUsername();
         String poza = "";
         try {
-            poza = dbu.getPoza(currentUser, (String)request.getAttribute("userid")).trim();
+            poza = dbu.getPoza(currentUser, userid);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+
         response.setContentType("image/jpeg");
         ServletOutputStream out;
         out = response.getOutputStream();
-//    FileInputStream fin = new FileInputStream(getServletContext().getRealPath(".") + "/" + poza);   
         FileInputStream fin = new FileInputStream(getServletContext().getRealPath("/css/img/") + poza);
         BufferedInputStream bin = new BufferedInputStream(fin);
         int ch = 0;
