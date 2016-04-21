@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>SessionFilter</filter-name>
+        <filter-class>com.jademy.concediiapp.SessionFilter</filter-class>
+        <init-param>
+            <param-name>avoid-urls</param-name>
+            <param-value>/login.jsp, loginServlet</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SessionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    
+    
     <servlet>
         <servlet-name>loginServlet</servlet-name>
         <servlet-class>com.jademy.concediiapp.LoginServlet</servlet-class>

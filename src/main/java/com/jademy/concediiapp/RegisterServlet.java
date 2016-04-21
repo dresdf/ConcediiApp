@@ -11,15 +11,13 @@ import javax.servlet.http.HttpSession;
 public class RegisterServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        AdminDbCred adminDB = AdminDbCred.getInstance();
         DbUtils dbu = new DbUtils();
         User currentUser;
 
@@ -31,13 +29,12 @@ public class RegisterServlet extends HttpServlet {
         String date = request.getParameter("datastart");
 
         try {
-            currentUser = dbu.createAccount(firstName, lastName, email, username, password, date, adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
+            currentUser = dbu.createAccount(firstName, lastName, email, username, password, date);
 
             HttpSession s = request.getSession();
             s.setAttribute("currentuser", currentUser);
-            s.setAttribute("dbcred", adminDB);
             
-            request.getRequestDispatcher("/succes.jsp").forward(request, response);
+            request.getRequestDispatcher("/DashBoard").forward(request, response);
 
         } catch (SQLException e) {
             request.setAttribute("first_name", firstName);

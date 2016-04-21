@@ -10,30 +10,25 @@ import javax.servlet.http.HttpSession;
 
 public class LoginServlet extends HttpServlet {
 
-    AdminDbCred adminDB = AdminDbCred.getInstance();
-    DbUtils dbu = new DbUtils();
-    User currentUser = null;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //using POST
-        
-        
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        DbUtils dbu = new DbUtils();
+        User currentUser = null;
         String user_id = request.getParameter("id").trim();
         String password = request.getParameter("password").trim();
 
         try {
-            currentUser = dbu.checklogin(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword(), user_id, password);
+            currentUser = dbu.checklogin(user_id, password);
 
             if (currentUser.getID() != -1) {
                 HttpSession s = request.getSession();
                 s.setAttribute("currentuser", currentUser);
-                s.setAttribute("dbcred", adminDB);
                 request.getRequestDispatcher("/DashBoard").forward(request, response);
             } else {
                 request.setAttribute("message", "Utilizatorul sau parola sunt incorecte!");

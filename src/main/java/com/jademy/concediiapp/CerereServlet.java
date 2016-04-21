@@ -24,12 +24,12 @@ public class CerereServlet extends HttpServlet {
         DbUtils dbu = new DbUtils();
         String message = "";
 
-        String Fname = request.getParameter("first_name").trim();
-        String Lname = request.getParameter("last_name").trim();
-        String Uname = request.getParameter("id").trim();
-        String Email = request.getParameter("email").trim();
-        String TipCO = request.getParameter("dropdown");
-        String Pass = request.getParameter("id");
+        String firstName = request.getParameter("first_name").trim();
+        String lastName = request.getParameter("last_name").trim();
+        String username = request.getParameter("id").trim();
+        String email = request.getParameter("email").trim();
+        String tipConcediu = request.getParameter("dropdown");
+        String password = request.getParameter("id");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date DataStart = null;
@@ -42,7 +42,7 @@ public class CerereServlet extends HttpServlet {
         }
         long NrZile = ((DataFinal.getTime() - DataStart.getTime())) / (1000 * 60 * 60 * 24) + 1;
 
-        Cerere crr = new Cerere(Fname, Lname, Email, Uname, Pass, TipCO, Long.toString(NrZile), "INITIATA", new java.sql.Date(DataStart.getTime()), new java.sql.Date(DataFinal.getTime()));
+        Cerere crr = new Cerere(firstName, lastName, email, username, password, tipConcediu, Long.toString(NrZile), "INITIATA", new java.sql.Date(DataStart.getTime()), new java.sql.Date(DataFinal.getTime()));
         boolean flag = dbu.recordCereri(crr);
 
         if (flag) {

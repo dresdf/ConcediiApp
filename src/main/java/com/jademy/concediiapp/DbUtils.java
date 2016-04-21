@@ -12,72 +12,65 @@ import org.jfree.data.general.DefaultPieDataset;
 
 public class DbUtils {
 
-    public Connection conn = null;
-    public Statement statement = null;
     AdminDbCred adminDB = AdminDbCred.getInstance();
-
-    public static boolean checkSession(HttpServletRequest request) {
-
-        //check if the session contains a logged user
-        Object currentuser = request.getSession(true).getAttribute("curentuser");
-        if (currentuser == null) {
-            return false;
-        }
-        //TODO: check if this is stil valid for the project
-        if (((User) currentuser).getID() == -1) {
-            return false;
-        }
-        return true;
-    }
-
+    
     //open a connection and create a statement object
-    public void openConnection(String database, String dbUsername, String dbPassword) {
-
+    public Statement createStatement() {
+        Statement statement = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + database + "?user=" + dbUsername + "&password=" + dbPassword);
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"
+                    + adminDB.getDb() + "?user=" + adminDB.getDbUsername() + "&password=" + adminDB.getDbPassword());
             statement = conn.createStatement();
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
             System.out.println("DbUtils.openConnection() failed!*******************************************************");
             e.printStackTrace();
         }
-
+        return statement;
     }
 
-    public User checklogin(String database, String dbUsername, String dbPassword, String username, String password) throws SQLException {
+    public User checklogin(String username, String password) throws SQLException {
 
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
-
-        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "' AND pass='" + password + "'");
-
+        ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "' AND pass='" + password + "'");
         if (result.next()) {
             //user exists. return User object 
-            return new User(result.getInt("id"), result.getString("uname"), result.getString("pass"), result.getString("first_name"), result.getString("last_name"), result.getString("email"), result.getString("poza"));
+            return new User.Builder().setID(result.getInt("id"))
+                    .setUsername(result.getString("uname"))
+                    .setPassword(result.getString("pass"))
+                    .setFirstName(result.getString("first_name"))
+                    .setLastName(result.getString("last_name"))
+                    .setEmail(result.getString("email"))
+                    .setPoza(result.getString("poza")).build();
         } else {
             //user does not exist. return empty User
-            return new User();
+            return new User(-1);
         }
     }
 
-    public User createAccount(String prenume, String nume, String email, String username, String password, String date, String database, String dbUsername, String dbPassword) throws SQLException {
+    public User createAccount(String prenume, String nume, String email, String username, String password, String date) throws SQLException {
 
-        openConnection(database, dbUsername, dbPassword);
         String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
                 + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
 
-        statement.executeUpdate(sql);
+        createStatement().executeUpdate(sql);
 
-        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE id=(SELECT MAX(id) FROM prj_members)");
+        ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE id=(SELECT MAX(id) FROM prj_members)");
 
-        return new User(result.getInt("id"), result.getString("uname"), result.getString("pass"), result.getString("first_name"), result.getString("last_name"), result.getString("email"), result.getString("poza"));
+        return new User.Builder().setID(result.getInt("id"))
+                .setUsername(result.getString("uname"))
+                .setPassword(result.getString("pass"))
+                .setFirstName(result.getString("first_name"))
+                .setLastName(result.getString("last_name"))
+                .setEmail(result.getString("email"))
+                .setPoza(result.getString("poza")).build();
 
     }
 
     public List retrieveCereri(User currentUser) throws SQLException {
         List<Cerere> result = new ArrayList<>();
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
 
-        ResultSet rs = statement.executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "'");
+        ResultSet rs = createStatement().executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "'");
 
         while (rs.next()) {
             Cerere crr = new Cerere(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("uname"), rs.getString("pass"), rs.getString("tipconcediu"), rs.getString("nrzile"), rs.getString("status"), rs.getDate("datastart"), rs.getDate("datafinal"));
@@ -87,12 +80,11 @@ public class DbUtils {
     }
 
     public boolean recordCereri(Cerere cerere) {
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
         String sql = "INSERT INTO prj_cereri(first_name,last_name,email,uname,tipconcediu,pass,datastart,datafinal,nrzile,status) "
                 + "VALUES('" + cerere.getFirstName() + "','" + cerere.getLastName() + "','" + cerere.getEmail() + "','" + cerere.getUsername() + "','" + cerere.getTipConcediu() + "','" + cerere.getPassword() + "','" + cerere.getDataStart() + "','" + cerere.getDataFinal() + "','" + cerere.getNrZile() + "','" + cerere.getStatus() + "')";
 
         try {
-            statement.executeUpdate(sql);
+            createStatement().executeUpdate(sql);
             return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -102,9 +94,8 @@ public class DbUtils {
 
     public List retrieveAprovalPending(User currentUser) throws SQLException {
         List<Cerere> result = new ArrayList<>();
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
 
-        ResultSet rs = statement.executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "' AND status='INITIATA'");
+        ResultSet rs = createStatement().executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "' AND status='INITIATA'");
 
         while (rs.next()) {
             Cerere crr = new Cerere(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("uname"), rs.getString("pass"), rs.getString("tipconcediu"), rs.getString("nrzile"), rs.getString("status"), rs.getDate("datastart"), rs.getDate("datafinal"));
@@ -114,7 +105,6 @@ public class DbUtils {
     }
 
     public boolean aproveOrDenyCerere(String hiddenid, String hiddenidreject) {
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
         String status = " ";
         String UserId = " ";
 
@@ -129,7 +119,7 @@ public class DbUtils {
         String sql = "UPDATE prj_cereri SET status='" + status + "' WHERE id='" + UserId + "'";
 
         try {
-            statement.executeUpdate(sql);
+            createStatement().executeUpdate(sql);
             return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -138,8 +128,7 @@ public class DbUtils {
     }
 
     public DefaultPieDataset showPieChart(User currentuser) throws SQLException {
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
-        ResultSet resultSet = statement.executeQuery("SELECT tipconcediu, sum(nrzile) AS total FROM prj_cereri WHERE uname='" + currentuser.getUsername() + "' " + "GROUP BY tipconcediu");
+        ResultSet resultSet = createStatement().executeQuery("SELECT tipconcediu, sum(nrzile) AS total FROM prj_cereri WHERE uname='" + currentuser.getUsername() + "' " + "GROUP BY tipconcediu");
 
         DefaultPieDataset resultDefaultPie = new DefaultPieDataset();
         while (resultSet.next()) {
@@ -149,11 +138,8 @@ public class DbUtils {
     }
 
     public String getPoza(User currentUser, String username) throws SQLException {
-        openConnection(adminDB.getDb(), adminDB.getDbUsername(), adminDB.getDbPassword());
+        ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "'");
 
-        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "'");
-//        ResultSet result = statement.executeQuery("SELECT * FROM prj_members WHERE uname='drasec'");
-        
         if (result.next()) {
             return result.getString("poza");
         } else {

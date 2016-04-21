@@ -28,7 +28,6 @@ public class LogoutServlet extends HttpServlet {
         request.setAttribute("message", currentUser.getUsername() + " a fost deconectat de la aplicatie");
         
         s.removeAttribute("currentuser");
-        s.removeAttribute("dbcred");
         
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }

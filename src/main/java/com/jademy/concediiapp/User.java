@@ -1,6 +1,7 @@
 package com.jademy.concediiapp;
 
 public class User {
+
     private int ID;
     private String username;
     private String password;
@@ -13,70 +14,84 @@ public class User {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPoza() {
         return poza;
     }
 
-    public void setPoza(String poza) {
-        this.poza = poza;
+    private User() {
+        //empty
     }
-
-    public User(int ID, String username, String password, String firstName, String lastName, String email, String poza) {
+    
+    //user for login check
+    public User(int ID) {
         this.ID = ID;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.poza = poza;
     }
 
-    public User(){
-        this(-1, null, null, null, null, null, null);
+    //contains all setters
+    public static class Builder {
+
+        User user = new User();
+
+        public Builder setID(int ID) {
+            user.ID = ID;
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            user.username = username;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            user.password = password;
+            return this;
+        }
+
+        public Builder setFirstName(String firstName) {
+            user.firstName = firstName;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            user.lastName = lastName;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            user.email = email;
+            return this;
+        }
+
+        public Builder setPoza(String poza) {
+            user.poza = poza;
+            return this;
+        }
+        
+        public  User build(){
+            return user;
+        }
+
     }
-   
-}
+
+}//end of class
+
