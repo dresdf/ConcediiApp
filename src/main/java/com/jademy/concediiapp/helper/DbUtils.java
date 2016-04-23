@@ -1,5 +1,7 @@
-package com.jademy.concediiapp;
+package com.jademy.concediiapp.helper;
 
+import com.jademy.concediiapp.model.User;
+import com.jademy.concediiapp.model.Cerere;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,13 +9,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import org.jfree.data.general.DefaultPieDataset;
 
 public class DbUtils {
 
     AdminDbCred adminDB = AdminDbCred.getInstance();
-    
+
     //open a connection and create a statement object
     public Statement createStatement() {
         Statement statement = null;
@@ -31,8 +32,8 @@ public class DbUtils {
     }
 
     public User checklogin(String username, String password) throws SQLException {
-
-        ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "' AND pass='" + password + "'");
+        String table = "prj_members";
+        ResultSet result = createStatement().executeQuery("SELECT * FROM " + table + " WHERE uname='" + username + "' AND pass='" + password + "'");
         if (result.next()) {
             //user exists. return User object 
             return new User.Builder().setID(result.getInt("id"))
@@ -50,13 +51,12 @@ public class DbUtils {
 
     public User createAccount(String prenume, String nume, String email, String username, String password, String date) throws SQLException {
 
-        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
-                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
-
-        createStatement().executeUpdate(sql);
-
+//        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
+//                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
+//
+//        createStatement().executeUpdate(sql);
         ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE id=(SELECT MAX(id) FROM prj_members)");
-
+        result.next();
         return new User.Builder().setID(result.getInt("id"))
                 .setUsername(result.getString("uname"))
                 .setPassword(result.getString("pass"))

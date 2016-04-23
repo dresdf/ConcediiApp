@@ -1,4 +1,4 @@
-package com.jademy.concediiapp;
+package com.jademy.concediiapp.helper;
 
 import java.io.InputStream;
 import java.util.Properties;

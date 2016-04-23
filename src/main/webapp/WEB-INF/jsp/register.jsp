@@ -11,7 +11,7 @@
 
     <center><img src="css/img/Jademy.png" alt="Jademy.png"/></center>
 
-    <form action="registerServlet" method="post" name="frm" >
+    <form action="doregister" method="POST" name="frm" >
         <center><p>INREGISTRARE UTILIZATOR NOU</p></center>
         <center><p><h2 class='form-signin-heading error'>${message}</h2></p></center>
         <table style="margin: auto;">

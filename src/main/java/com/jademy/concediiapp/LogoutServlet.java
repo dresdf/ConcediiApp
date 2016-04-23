@@ -1,5 +1,6 @@
 package com.jademy.concediiapp;
 
+import com.jademy.concediiapp.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

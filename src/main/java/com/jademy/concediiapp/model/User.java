@@ -1,4 +1,4 @@
-package com.jademy.concediiapp;
+package com.jademy.concediiapp.model;
 
 public class User {
 
