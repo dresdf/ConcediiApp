@@ -8,6 +8,8 @@
          http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 ">
     <context:component-scan base-package="com.jademy.concediiapp.controller"/>
+    <!-- set welcome page -->
+    <mvc:view-controller path="/" view-name="index"/>
     
     <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">

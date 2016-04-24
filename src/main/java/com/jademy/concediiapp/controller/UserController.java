@@ -3,8 +3,6 @@ package com.jademy.concediiapp.controller;
 import com.jademy.concediiapp.model.User;
 import com.jademy.concediiapp.helper.DbUtils;
 import java.sql.SQLException;
-import java.util.Date;
-import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,10 +30,10 @@ public class UserController {
             currentUser = dbu.checklogin(input_username, input_password);
 
             if (currentUser.getID() != -1) {
-                mav = new ModelAndView("logare", "currentuser", currentUser);
+                mav = new ModelAndView("main", "currentuser", currentUser);
 
             } else {
-                mav = new ModelAndView("logare");
+                mav = new ModelAndView("fail");
 
             }
         } catch (SQLException e) {
@@ -45,10 +43,10 @@ public class UserController {
     }
 
     @RequestMapping("/register")
-    public String goToRegister(){
+    public String goToRegister() {
         return "register";
     }
-    
+
     @RequestMapping("/doregister")
     public ModelAndView register(String first_name, String last_name, String email, String uname, String pass, String datastart) {
         String input_firstName = first_name.trim();
@@ -63,10 +61,14 @@ public class UserController {
 
 //            HttpSession s = request.getSession();
 //            s.setAttribute("currentuser", currentUser);
-            mav = new ModelAndView("registerend", "currentuser", currentUser);
+            if (currentUser != null) {
+                mav = new ModelAndView("main", "currentuser", currentUser);
+            }else{
+                mav = new ModelAndView("fail");
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException("buba", e);
+            throw new RuntimeException("insert failed", e);
         }
 
         return mav;

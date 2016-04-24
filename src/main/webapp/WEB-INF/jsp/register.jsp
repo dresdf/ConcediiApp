@@ -1,15 +1,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Inregistrare Utilizator</title>
-        <link href="css/login.css" rel="stylesheet" type="text/css">  
+        <link href="<c:url value="/resources/css/base.css" />" rel="stylesheet">  
     </head>
     <body>
 
-    <center><img src="css/img/Jademy.png" alt="Jademy.png"/></center>
+    <center><img src="<c:url value="/resources/img/Jademy.png"/>" alt="Jademy.png"/></center>
 
     <form action="doregister" method="POST" name="frm" >
         <center><p>INREGISTRARE UTILIZATOR NOU</p></center>

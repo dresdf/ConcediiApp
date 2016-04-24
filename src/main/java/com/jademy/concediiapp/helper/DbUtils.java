@@ -50,7 +50,7 @@ public class DbUtils {
     }
 
     public User createAccount(String prenume, String nume, String email, String username, String password, String date) throws SQLException {
-
+//TODO: uncomment for full functionality
 //        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
 //                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
 //

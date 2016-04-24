@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <title>PAGINA LOGIN - Echipa Jademy #8</title>
 
-        <link href="<c:url value="/resources/css/login.css" />" rel="stylesheet">       
+        <link href="<c:url value="/resources/css/base.css" />" rel="stylesheet">       
 
         <script type="text/javascript">function validateForm()
             {
