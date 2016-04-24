@@ -20,115 +20,114 @@ public class Cerere {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getTipConcediu() {
         return tipConcediu;
     }
 
-    public void setTipConcediu(String tipConcediu) {
-        this.tipConcediu = tipConcediu;
-    }
-
     public String getNrZile() {
         return nrZile;
-    }
-
-    public void setNrZile(String nrZile) {
-        this.nrZile = nrZile;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Date getDataStart() {
         return dataStart;
-    }
-
-    public void setDataStart(Date dataStart) {
-        this.dataStart = dataStart;
     }
 
     public Date getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(Date dataFinal) {
-        this.dataFinal = dataFinal;
+    private Cerere() {
+
     }
 
-    public Cerere(int ID, String firstName, String lastName, String email, String username, String password, String tipConcediu, String nrZile, String status, Date dataStart, Date dataFinal) {
-        this.ID = ID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.tipConcediu = tipConcediu;
-        this.nrZile = nrZile;
-        this.status = status;
-        this.dataStart = dataStart;
-        this.dataFinal = dataFinal;
-    }
+    //contains all setters
+    public static class Builder {
 
-    public Cerere(String firstName, String lastName, String email, String username, String password, String tipConcediu, String nrZile, String status, Date dataStart, Date dataFinal) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.tipConcediu = tipConcediu;
-        this.nrZile = nrZile;
-        this.status = status;
-        this.dataStart = dataStart;
-        this.dataFinal = dataFinal;
+        Cerere cerere = new Cerere();
+
+        public Builder setID(int ID) {
+            cerere.ID = ID;
+            return this;
+        }
+
+        public Builder setFirstName(String firstName) {
+            cerere.firstName = firstName;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            cerere.lastName = lastName;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            cerere.email = email;
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            cerere.username = username;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            cerere.password = password;
+            return this;
+        }
+
+        public Builder setTipConcediu(String tipConcediu) {
+            cerere.tipConcediu = tipConcediu;
+            return this;
+        }
+
+        public Builder setNrZile(String nrZile) {
+            cerere.nrZile = nrZile;
+            return this;
+        }
+
+        public Builder setStatus(String status) {
+            cerere.status = status;
+            return this;
+        }
+
+        public Builder setDataStart(Date dataStart) {
+            cerere.dataStart = dataStart;
+            return this;
+        }
+
+        public Builder setDataFinal(Date dataFinal) {
+            cerere.dataFinal = dataFinal;
+            return this;
+        }
+
+        public Cerere build() {
+            return cerere;
+        }
+
     }
 
 }

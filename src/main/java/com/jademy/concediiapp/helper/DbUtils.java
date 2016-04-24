@@ -42,7 +42,7 @@ public class DbUtils {
                     .setFirstName(result.getString("first_name"))
                     .setLastName(result.getString("last_name"))
                     .setEmail(result.getString("email"))
-                    .setPoza(result.getString("poza")).build();
+                    .setPoza(getPoza(result.getString("poza"))).build();
         } else {
             //user does not exist. return empty User
             return new User(-1);
@@ -73,7 +73,17 @@ public class DbUtils {
         ResultSet rs = createStatement().executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "'");
 
         while (rs.next()) {
-            Cerere crr = new Cerere(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("uname"), rs.getString("pass"), rs.getString("tipconcediu"), rs.getString("nrzile"), rs.getString("status"), rs.getDate("datastart"), rs.getDate("datafinal"));
+            Cerere crr = new Cerere.Builder().setID(rs.getInt("id"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"))
+                    .setUsername(rs.getString("uname"))
+                    .setPassword(rs.getString("pass"))
+                    .setEmail(rs.getString("email"))
+                    .setTipConcediu(rs.getString("tipconcediu"))
+                    .setNrZile(rs.getString("nrzile"))
+                    .setStatus(rs.getString("status"))
+                    .setDataStart(rs.getDate("datastart"))
+                    .setDataFinal(rs.getDate("datafinal")).build();
             result.add(crr);
         }
         return result;
@@ -98,7 +108,17 @@ public class DbUtils {
         ResultSet rs = createStatement().executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "' AND status='INITIATA'");
 
         while (rs.next()) {
-            Cerere crr = new Cerere(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("email"), rs.getString("uname"), rs.getString("pass"), rs.getString("tipconcediu"), rs.getString("nrzile"), rs.getString("status"), rs.getDate("datastart"), rs.getDate("datafinal"));
+            Cerere crr = new Cerere.Builder().setID(rs.getInt("id"))
+                    .setFirstName(rs.getString("first_name"))
+                    .setLastName(rs.getString("last_name"))
+                    .setUsername(rs.getString("uname"))
+                    .setPassword(rs.getString("pass"))
+                    .setEmail(rs.getString("email"))
+                    .setTipConcediu(rs.getString("tipconcediu"))
+                    .setNrZile(rs.getString("nrzile"))
+                    .setStatus(rs.getString("status"))
+                    .setDataStart(rs.getDate("datastart"))
+                    .setDataFinal(rs.getDate("datafinal")).build();
             result.add(crr);
         }
         return result;
@@ -137,13 +157,12 @@ public class DbUtils {
         return resultDefaultPie;
     }
 
-    public String getPoza(User currentUser, String username) throws SQLException {
-        ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE uname='" + username + "'");
-
-        if (result.next()) {
-            return result.getString("poza");
-        } else {
+    //checks if user has a profile pic. if not, load a default image
+    public String getPoza(String poza) {
+        if (poza.equals("")) {
             return "default-avatar.jpg";
+        } else {
+            return poza;
         }
     }
 }//end of class

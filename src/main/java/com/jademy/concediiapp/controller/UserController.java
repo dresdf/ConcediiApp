@@ -3,6 +3,9 @@ package com.jademy.concediiapp.controller;
 import com.jademy.concediiapp.model.User;
 import com.jademy.concediiapp.helper.DbUtils;
 import java.sql.SQLException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +23,9 @@ public class UserController {
     DbUtils dbu = new DbUtils();
     User currentUser = null;
 
+    //login the user. if it fails, redirect to login page
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(String username, String password) {
+    public ModelAndView login(String username, String password, HttpServletRequest request) {
 
         String input_username = username.trim();
         String input_password = password.trim();
@@ -30,7 +34,12 @@ public class UserController {
             currentUser = dbu.checklogin(input_username, input_password);
 
             if (currentUser.getID() != -1) {
-                mav = new ModelAndView("main", "currentuser", currentUser);
+                request.getSession().setAttribute("currentuser", currentUser);
+                List cereri = dbu.retrieveCereri(currentUser);
+                List pending = dbu.retrieveAprovalPending(currentUser);
+                mav = new ModelAndView("main");
+                mav.addObject("listacereri", cereri);
+                mav.addObject("pending", pending);
 
             } else {
                 mav = new ModelAndView("fail");
@@ -42,11 +51,13 @@ public class UserController {
         return mav;
     }
 
+    //redirect from login page to create account page
     @RequestMapping("/register")
     public String goToRegister() {
         return "register";
     }
 
+    //create account and redirect to main. if it fails, redirect to create account page preserving input data, with fail message
     @RequestMapping("/doregister")
     public ModelAndView register(String first_name, String last_name, String email, String uname, String pass, String datastart) {
         String input_firstName = first_name.trim();
@@ -58,11 +69,8 @@ public class UserController {
 
         try {
             currentUser = dbu.createAccount(input_firstName, input_lastName, input_email, input_username, input_password, input_date);
-
-//            HttpSession s = request.getSession();
-//            s.setAttribute("currentuser", currentUser);
             if (currentUser != null) {
-                mav = new ModelAndView("main", "currentuser", currentUser);
+                mav = new ModelAndView("registerend", "currentuser", currentUser);
             }else{
                 mav = new ModelAndView("fail");
             }
@@ -74,4 +82,5 @@ public class UserController {
         return mav;
     }
 
+   
 }

@@ -65,12 +65,9 @@
 
     </head>
     <body>
-    <center><img src="css/img/Jademy.png" alt="Jademy.png"/></center>
+    <center><img src="<c:url value="/resources/img/Jademy.png"/>"/></center>
     <h1>APLICATIE CONCEDII - Echipa Jademy #8</h1>
-    <a href='logoutServlet'>Deconectare [<%
-        User currentUser = (User) session.getAttribute("currentuser");
-        out.print(currentUser.getUsername());
-        %>]</a>
+    <a href='logoutServlet'>Deconectare [${currentuser.username}]</a>
 
     <div id="tabs">
         <ul>
@@ -82,7 +79,7 @@
 
         <!-- cerere -->
         <div id="cerere">
-            <form action="cerereServlet" method="post" name="frm" onSubmit="return validateForm()">
+            <form action="../cerere/adauga" method="post" name="frm" onSubmit="return validateForm()">
                 <p>Situatia concediilor la data: <%= (new java.util.Date())%></p>
                 <table class="imagetable">
                     <tr>
@@ -116,7 +113,7 @@
                     <tr>
                         <td>Utilizator :</td>
                         <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
-                        <td rowspan="7"><img src="pictureServlet?user=${currentuser.username}" width="200" border="1"/></td>
+                        <td rowspan="7"><img src="<c:url value="/resources/profile/${currentuser.poza}" />" width="200" border="1" alt="Profile Picture" /></td>
                     </tr>
                     <tr>
                         <td>Prenume :</td>
@@ -161,6 +158,7 @@
 
         <!-- aprobare -->
         <div id="aprobare">
+            <%--
             <form action="aprobaServlet" method="post" name="frm1">
                 <p>Situatia concediilor de aprobat la data: <%= (new java.util.Date())%></p>
                 <p style="color: coral">${aprovalMessage}</p>
@@ -195,9 +193,12 @@
                 <input type="hidden" name="hiddenid" id="hiddenid"/>   
                 <input type="hidden" name="hiddenidreject" id="hiddenidreject"/>  
             </form>
+            --%>
         </div>
+        
         <!-- rapoarte -->
         <div id="rapoarte">
+            <%--
             <form method="post">
                 <%@ page import="java.awt.*" %>
                 <%@ page import="java.io.*" %>
@@ -223,10 +224,12 @@
                 <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
                 <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
             </form>
+            --%>
         </div>
 
         <!-- profil -->
         <div id="profil">
+            <%--
             <form action="uploadServlet" method="post" name="frm2" enctype="multipart/form-data">
                 <p>ACTUALIZARE PROFIL UTILIZATOR</p>
                 <table>
@@ -259,6 +262,7 @@
                 </table>
                 <input type="text" name="utilizator" id="utilizator" value="${currentuser.username}"/>
             </form>
+            --%>
         </div>
     </div>
 

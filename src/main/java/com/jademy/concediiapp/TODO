@@ -1,3 +1,0 @@
-//scoate singleton din login si baga-l in dbutil
-
-${pageContext.request.contextPath} - pune in jsp inainte de calea catre controller

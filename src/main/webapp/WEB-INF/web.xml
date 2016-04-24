@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-<!--    <filter>
-        <filter-name>SessionFilter</filter-name>
-        <filter-class>com.jademy.concediiapp.SessionFilter</filter-class>
-        <init-param>
-            <param-name>avoid-urls</param-name>
-            <param-value>/index.jsp</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>SessionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
     
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -24,70 +12,6 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>loginServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.LoginServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>cerereServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.CerereServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>registerServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.RegisterServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>aprobaServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.AprobaServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>pictureServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.PictureServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>uploadServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.UploadServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>logoutServlet</servlet-name>
-        <servlet-class>com.jademy.concediiapp.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DashBoard</servlet-name>
-        <servlet-class>com.jademy.concediiapp.DashBoard</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>loginServlet</servlet-name>
-        <url-pattern>/loginServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>cerereServlet</servlet-name>
-        <url-pattern>/cerereServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>registerServlet</servlet-name>
-        <url-pattern>/registerServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>aprobaServlet</servlet-name>
-        <url-pattern>/aprobaServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>pictureServlet</servlet-name>
-        <url-pattern>/pictureServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>uploadServlet</servlet-name>
-        <url-pattern>/uploadServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>logoutServlet</servlet-name>
-        <url-pattern>/logoutServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DashBoard</servlet-name>
-        <url-pattern>/DashBoard</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
