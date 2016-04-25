@@ -12,7 +12,7 @@
 
     <center><img src="<c:url value="/resources/img/Jademy.png"/>" alt="Jademy.png"/></center>
 
-    <form action="doregister" method="POST" name="frm" >
+    <form action="${pageContext.request.contextPath}/user/doregister" method="POST" name="frm" >
         <center><p>INREGISTRARE UTILIZATOR NOU</p></center>
         <center><p><h2 class='form-signin-heading error'>${message}</h2></p></center>
         <table style="margin: auto;">

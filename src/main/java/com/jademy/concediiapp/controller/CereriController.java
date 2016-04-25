@@ -3,13 +3,9 @@ package com.jademy.concediiapp.controller;
 import com.jademy.concediiapp.helper.DbUtils;
 import com.jademy.concediiapp.model.Cerere;
 import com.jademy.concediiapp.model.User;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +24,7 @@ public class CereriController {
     DbUtils dbu = new DbUtils();
 
     @RequestMapping(value = "/adauga", method = RequestMethod.POST)
-    public void adaugaCerere(String dropdown, String datastart, String datafinal, HttpServletRequest request) {
+    public ModelAndView adaugaCerere(String dropdown, String datastart, String datafinal, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("currentuser");
         String message = " ";
         String tipConcediu = dropdown;
@@ -60,22 +56,22 @@ public class CereriController {
         } else {
             message = "Eroare la inregistrarea cererii de concediu in baza de date.";
         }
-        List cereri = null;
-        List pending = null;
-        try {
-            cereri = dbu.retrieveCereri(user);
-            pending = dbu.retrieveAprovalPending(user);
-        } catch (SQLException ex) {
-            Logger.getLogger(CereriController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        mav = new ModelAndView("main");
-        mav.addObject("message", message);
-        mav.addObject("listacereri", cereri);
-        mav.addObject("pending", pending);
+
+        mav = new ModelAndView("forward:/main");
+        request.setAttribute("mssage", message);
+
+        return mav;
     }
 
-    public void aprobareCerere() {
+    @RequestMapping(value = "/aproba", method = RequestMethod.POST)
+    public ModelAndView aprobareCerere(String hiddenid, String hiddenidreject, HttpServletRequest request) {
+        String message;
 
+        dbu.aproveOrDenyCerere(hiddenid, hiddenidreject);
+
+        mav = new ModelAndView("forward:/main");
+
+        return mav;
     }
 
 }

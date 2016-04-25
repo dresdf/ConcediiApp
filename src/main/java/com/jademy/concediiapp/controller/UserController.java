@@ -35,12 +35,7 @@ public class UserController {
 
             if (currentUser.getID() != -1) {
                 request.getSession().setAttribute("currentuser", currentUser);
-                List cereri = dbu.retrieveCereri(currentUser);
-                List pending = dbu.retrieveAprovalPending(currentUser);
-                mav = new ModelAndView("main");
-                mav.addObject("listacereri", cereri);
-                mav.addObject("pending", pending);
-
+                mav = new ModelAndView("forward:/main");
             } else {
                 mav = new ModelAndView("fail");
 
@@ -59,7 +54,7 @@ public class UserController {
 
     //create account and redirect to main. if it fails, redirect to create account page preserving input data, with fail message
     @RequestMapping("/doregister")
-    public ModelAndView register(String first_name, String last_name, String email, String uname, String pass, String datastart) {
+    public ModelAndView register(String first_name, String last_name, String email, String uname, String pass, String datastart, HttpServletRequest request) {
         String input_firstName = first_name.trim();
         String input_lastName = last_name.trim();
         String input_email = email.trim();
@@ -70,8 +65,9 @@ public class UserController {
         try {
             currentUser = dbu.createAccount(input_firstName, input_lastName, input_email, input_username, input_password, input_date);
             if (currentUser != null) {
-                mav = new ModelAndView("registerend", "currentuser", currentUser);
-            }else{
+                request.getSession().setAttribute("currentuser", currentUser);
+                mav = new ModelAndView("forward:/main");
+            } else {
                 mav = new ModelAndView("fail");
             }
 
@@ -82,5 +78,9 @@ public class UserController {
         return mav;
     }
 
-   
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().setAttribute("currentuser", null);
+        return "index";
+    }
 }

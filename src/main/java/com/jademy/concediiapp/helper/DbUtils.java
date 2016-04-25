@@ -50,11 +50,10 @@ public class DbUtils {
     }
 
     public User createAccount(String prenume, String nume, String email, String username, String password, String date) throws SQLException {
-//TODO: uncomment for full functionality
-//        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
-//                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
-//
-//        createStatement().executeUpdate(sql);
+        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
+                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
+
+        createStatement().executeUpdate(sql);
         ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE id=(SELECT MAX(id) FROM prj_members)");
         result.next();
         return new User.Builder().setID(result.getInt("id"))
