@@ -20,7 +20,7 @@ public class DbUtils {
         Statement statement = null;
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/"
+            Connection conn = DriverManager.getConnection("jdbc:mysql://" + adminDB.getDbHost() + ":" + adminDB.getDbPort() + "/"
                     + adminDB.getDb() + "?user=" + adminDB.getDbUsername() + "&password=" + adminDB.getDbPassword());
             statement = conn.createStatement();
 
@@ -32,17 +32,16 @@ public class DbUtils {
     }
 
     public User checklogin(String username, String password) throws SQLException {
-        String table = "prj_members";
-        ResultSet result = createStatement().executeQuery("SELECT * FROM " + table + " WHERE uname='" + username + "' AND pass='" + password + "'");
+        String table = "users";
+        ResultSet result = createStatement().executeQuery("SELECT * FROM " + table + " WHERE username='" + username + "' AND password='" + password + "'");
         if (result.next()) {
             //user exists. return User object 
-            return new User.Builder().setID(result.getInt("id"))
-                    .setUsername(result.getString("uname"))
-                    .setPassword(result.getString("pass"))
-                    .setFirstName(result.getString("first_name"))
-                    .setLastName(result.getString("last_name"))
+            return new User.Builder().setID(result.getInt("userid"))
+                    .setFirstName(result.getString("firstname"))
+                    .setLastName(result.getString("lastname"))
                     .setEmail(result.getString("email"))
-                    .setPoza(getPoza(result.getString("poza"))).build();
+                    .setPoza(getPoza(result.getString("poza")))
+                    .setRank(result.getString("rank")).build();
         } else {
             //user does not exist. return empty User
             return new User(-1);
@@ -50,29 +49,36 @@ public class DbUtils {
     }
 
     public User createAccount(String prenume, String nume, String email, String username, String password, String date) throws SQLException {
-        String sql = "INSERT INTO prj_members(first_name, last_name, email, uname, pass, regdate, poza) "
-                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','default.jpg')";
+        String sql = "INSERT INTO users(firstname, lastname, email, username, password, regdate, rank) "
+                + "values('" + prenume + "','" + nume + "','" + email + "','" + username + "','" + password + "','" + date + "','user')";
 
         createStatement().executeUpdate(sql);
-        ResultSet result = createStatement().executeQuery("SELECT * FROM prj_members WHERE id=(SELECT MAX(id) FROM prj_members)");
+        ResultSet result = createStatement().executeQuery("SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users)");
         result.next();
         return new User.Builder().setID(result.getInt("id"))
-                .setUsername(result.getString("uname"))
-                .setPassword(result.getString("pass"))
-                .setFirstName(result.getString("first_name"))
-                .setLastName(result.getString("last_name"))
+                .setFirstName(result.getString("firstname"))
+                .setLastName(result.getString("lastname"))
                 .setEmail(result.getString("email"))
-                .setPoza(result.getString("poza")).build();
+                .setPoza(result.getString("poza"))
+                .setRank(result.getString("rank")).build();
 
     }
 
     public List retrieveCereri(User currentUser) throws SQLException {
         List<Cerere> result = new ArrayList<>();
 
-        ResultSet rs = createStatement().executeQuery("SELECT * FROM prj_cereri WHERE uname='" + currentUser.getUsername() + "'");
+        //TODO: make a join for answer
+        //SELECT 
+        //* 
+        //FROM
+        //(SELECT * FROM users) t1 
+        //INNER JOIN
+        //(SELECT * FROM requests) t2
+        //ON t1.userid = t2.userid
+        ResultSet rs = createStatement().executeQuery("SELECT * FROM requests WHERE userid='" + currentUser.getID()+ "'");
 
         while (rs.next()) {
-            Cerere crr = new Cerere.Builder().setID(rs.getInt("id"))
+            Cerere crr = new Cerere.Builder().setID(rs.getInt("cerereid"))
                     .setFirstName(rs.getString("first_name"))
                     .setLastName(rs.getString("last_name"))
                     .setUsername(rs.getString("uname"))
@@ -89,7 +95,7 @@ public class DbUtils {
     }
 
     public boolean recordCereri(Cerere cerere) {
-        String sql = "INSERT INTO prj_cereri(first_name,last_name,email,uname,tipconcediu,pass,datastart,datafinal,nrzile,status) "
+        String sql = "INSERT INTO requests(tipconcediu,pass,datastart,datafinal,nrzile,status) "
                 + "VALUES('" + cerere.getFirstName() + "','" + cerere.getLastName() + "','" + cerere.getEmail() + "','" + cerere.getUsername() + "','" + cerere.getTipConcediu() + "','" + cerere.getPassword() + "','" + cerere.getDataStart() + "','" + cerere.getDataFinal() + "','" + cerere.getNrZile() + "','" + cerere.getStatus() + "')";
 
         try {

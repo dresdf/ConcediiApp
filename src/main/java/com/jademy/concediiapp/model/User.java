@@ -9,6 +9,7 @@ public class User {
     private String lastName;
     private String email;
     private String poza;
+    private String rank;
 
     public int getID() {
         return ID;
@@ -38,10 +39,14 @@ public class User {
         return poza;
     }
 
+    public String getRank() {
+        return rank;
+    }
+
     private User() {
         //empty
     }
-    
+
     //user for login check
     public User(int ID) {
         this.ID = ID;
@@ -86,8 +91,13 @@ public class User {
             user.poza = poza;
             return this;
         }
-        
-        public  User build(){
+
+        public Builder setRank(String rank) {
+            user.rank = rank;
+            return this;
+        }
+
+        public User build() {
             return user;
         }
 

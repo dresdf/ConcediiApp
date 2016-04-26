@@ -22,22 +22,28 @@ public class CreateMainController {
 
     @RequestMapping("/main")
     public ModelAndView showMain(HttpServletRequest request) {
-        ModelAndView mav = new ModelAndView("main");
-
+        ModelAndView mav = new ModelAndView();
         User currentUser = (User) request.getSession().getAttribute("currentuser");
-        String message = (String)request.getAttribute("message");
-        List cereri = null;
-        List pending = null;
-        try {
-            cereri = dbu.retrieveCereri(currentUser);
-            pending = dbu.retrieveAprovalPending(currentUser);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        
+        if (currentUser.getRank().equals("admin")) {
+            String message = (String) request.getAttribute("message");
+            List cereri = null;
+            List pending = null;
+            try {
+                cereri = dbu.retrieveCereri(currentUser);
+                pending = dbu.retrieveAprovalPending(currentUser);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            mav.setViewName("main");
+            mav.addObject("listacereri", cereri);
+            mav.addObject("listapending", pending);
+            mav.addObject("message", message);
+        } else {
+            mav.setViewName("userMain");
         }
 
-        mav.addObject("listacereri", cereri);
-        mav.addObject("listapending", pending);
-        mav.addObject("message", message);
         return mav;
     }
 }

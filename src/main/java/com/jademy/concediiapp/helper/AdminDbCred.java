@@ -10,9 +10,19 @@ public class AdminDbCred {
 
     private static AdminDbCred singleton = new AdminDbCred();
 
+    private String dbHost;
+    private String dbPort;
     private String db;
     private String dbUsername;
     private String dbPassword;
+
+    public String getDbHost() {
+        return dbHost;
+    }
+
+    public String getDbPort() {
+        return dbPort;
+    }
 
     public String getDb() {
         return db;
@@ -38,6 +48,8 @@ public class AdminDbCred {
             InputStream input = classLoader.getResourceAsStream("database.properties");
             props.load(input);
 
+            this.dbHost = props.getProperty("dbHost");
+            this.dbPort = props.getProperty("dbPort");
             this.db = props.getProperty("db");
             this.dbUsername = props.getProperty("dbUser");
             this.dbPassword = props.getProperty("dbPassword");
