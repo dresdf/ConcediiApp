@@ -6,23 +6,31 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+        <link href="css/base.css" rel="stylesheet">
+        <link href="css/index.css" rel="stylesheet">
+
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/index.js"></script>
+
         <title>PAGINA LOGIN - Echipa Jademy #8</title>
-        <link href="<c:url value="/resources/css/base.css" />" rel="stylesheet">       
+
 
 
     </head>
     <body>
         <div class="container">
-            <center><h2 class="form-signin-heading">AUTENTIFICARE APLICATIE CONCEDII<br><small> <%= (new java.util.Date())%></small></h2></center>
+            <span id="clock" name="clock">Starting...</span>
+            <div style="clear: both"></div>
+            <center>
+                <h2 id="title" class="form-signin-heading">Vacation Planner 2.4</h2>
+            </center>
+
             <form class="form-signin" action="${pageContext.request.contextPath}/user/login" method="POST" name="frm">
-                <center><h3></h3></center>
-                <center><p><h2 class='form-signin-heading error'>${message}</h2></p></center>
-
-
+                <p class='form-signin-heading error'>${message}</p>
                 <input type="text" name="username" class="form-control" placeholder="Username" required autofocus autocomplete="off" />
                 <input type="password" name="password" class="form-control" placeholder="Password" required />
                 <!--<div class="checkbox">
@@ -34,5 +42,8 @@
                 <center><h3>Nu esti inregistrat? <a href="${pageContext.request.contextPath}user/register">Inregistreaza-te</a></h3></center>
             </form>
         </div>
+
+
+
     </body>
 </html>

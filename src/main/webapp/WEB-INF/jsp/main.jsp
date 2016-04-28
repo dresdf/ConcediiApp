@@ -37,7 +37,7 @@
     </head>
     <body>
         <div id="content" class="container">
-            <center><img src="<c:url value="/resources/img/Jademy.png"/>"/></center>
+            <center><img src="css/img/Jademy.png"/></center>
             <h1>APLICATIE CONCEDII - Echipa Jademy #8</h1>
             <a href='${pageContext.request.contextPath}/user/logout'>Deconectare [${currentuser.username}]</a>
 

@@ -1,26 +1,19 @@
 package com.jademy.concediiapp.model;
 
+import java.util.Date;
+
 public class User {
 
-    private int ID;
-    private String username;
-    private String password;
+    private int userID;
     private String firstName;
     private String lastName;
     private String email;
     private String poza;
     private String rank;
+    private Date regDate;
 
-    public int getID() {
-        return ID;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public int getUserID() {
+        return userID;
     }
 
     public String getFirstName() {
@@ -43,13 +36,17 @@ public class User {
         return rank;
     }
 
+    public Date getRegDate() {
+        return regDate;
+    }
+
     private User() {
         //empty
     }
 
     //user for login check
     public User(int ID) {
-        this.ID = ID;
+        this.userID = ID;
     }
 
     //contains all setters
@@ -57,18 +54,8 @@ public class User {
 
         User user = new User();
 
-        public Builder setID(int ID) {
-            user.ID = ID;
-            return this;
-        }
-
-        public Builder setUsername(String username) {
-            user.username = username;
-            return this;
-        }
-
-        public Builder setPassword(String password) {
-            user.password = password;
+        public Builder setUserID(int userID) {
+            user.userID = userID;
             return this;
         }
 
@@ -94,6 +81,11 @@ public class User {
 
         public Builder setRank(String rank) {
             user.rank = rank;
+            return this;
+        }
+        
+        public Builder setRegDate(Date regDate) {
+            user.regDate = regDate;
             return this;
         }
 

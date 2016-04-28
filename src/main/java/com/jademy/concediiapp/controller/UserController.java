@@ -3,7 +3,12 @@ package com.jademy.concediiapp.controller;
 import com.jademy.concediiapp.model.User;
 import com.jademy.concediiapp.helper.DbUtils;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -30,18 +35,14 @@ public class UserController {
         String input_username = username.trim();
         String input_password = password.trim();
 
-        try {
-            currentUser = dbu.checklogin(input_username, input_password);
+        currentUser = dbu.checklogin(input_username, input_password);
 
-            if (currentUser.getID() != -1) {
-                request.getSession().setAttribute("currentuser", currentUser);
-                mav = new ModelAndView("forward:/main");
-            } else {
-                mav = new ModelAndView("fail");
+        if (currentUser.getUserID() != -1) {
+            request.getSession().setAttribute("currentuser", currentUser);
+            mav = new ModelAndView("forward:/main");
+        } else {
+            mav = new ModelAndView("fail");
 
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return mav;
     }
@@ -60,26 +61,27 @@ public class UserController {
         String input_email = email.trim();
         String input_username = uname.trim();
         String input_password = pass.trim();
-        String input_date = datastart;
+//        String input_date = datastart;
+        Date regDate = new Date();//get current time
+//        try {
+//            regDate = new SimpleDateFormat("yyyy-MM-dd").parse(input_date);
+//        } catch (ParseException ex) {
+//            ex.printStackTrace();
+//        }
 
-        try {
-            currentUser = dbu.createAccount(input_firstName, input_lastName, input_email, input_username, input_password, input_date);
-            if (currentUser != null) {
-                request.getSession().setAttribute("currentuser", currentUser);
-                mav = new ModelAndView("forward:/main");
-            } else {
-                mav = new ModelAndView("fail");
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("insert failed", e);
+        currentUser = dbu.createAccount(input_firstName, input_lastName, input_email, input_username, input_password, regDate);
+        if (currentUser != null) {
+            request.getSession().setAttribute("currentuser", currentUser);
+            mav = new ModelAndView("forward:/main");
+        } else {
+            mav = new ModelAndView("fail");
         }
 
         return mav;
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
         request.getSession().setAttribute("currentuser", null);
         return "index";
     }

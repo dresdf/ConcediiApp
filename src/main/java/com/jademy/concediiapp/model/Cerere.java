@@ -4,48 +4,24 @@ import java.util.Date;
 
 public class Cerere {
 
-    private int ID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String username;
-    private String password;
+    private int requestID;
     private String tipConcediu;
-    private String nrZile;
+    private int duration;
     private String status;
     private Date dataStart;
     private Date dataFinal;
+    private int userID;
 
-    public int getID() {
-        return ID;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public int getRequestID() {
+        return requestID;
     }
 
     public String getTipConcediu() {
         return tipConcediu;
     }
 
-    public String getNrZile() {
-        return nrZile;
+    public int getDuration() {
+        return duration;
     }
 
     public String getStatus() {
@@ -60,6 +36,10 @@ public class Cerere {
         return dataFinal;
     }
 
+    public int getUserID() {
+        return userID;
+    }
+
     private Cerere() {
 
     }
@@ -70,32 +50,7 @@ public class Cerere {
         Cerere cerere = new Cerere();
 
         public Builder setID(int ID) {
-            cerere.ID = ID;
-            return this;
-        }
-
-        public Builder setFirstName(String firstName) {
-            cerere.firstName = firstName;
-            return this;
-        }
-
-        public Builder setLastName(String lastName) {
-            cerere.lastName = lastName;
-            return this;
-        }
-
-        public Builder setEmail(String email) {
-            cerere.email = email;
-            return this;
-        }
-
-        public Builder setUsername(String username) {
-            cerere.username = username;
-            return this;
-        }
-
-        public Builder setPassword(String password) {
-            cerere.password = password;
+            cerere.requestID = ID;
             return this;
         }
 
@@ -104,8 +59,8 @@ public class Cerere {
             return this;
         }
 
-        public Builder setNrZile(String nrZile) {
-            cerere.nrZile = nrZile;
+        public Builder setDuration(int duration) {
+            cerere.duration = duration;
             return this;
         }
 
@@ -121,6 +76,11 @@ public class Cerere {
 
         public Builder setDataFinal(Date dataFinal) {
             cerere.dataFinal = dataFinal;
+            return this;
+        }
+
+        public Builder setUserID(int userID) {
+            cerere.userID = userID;
             return this;
         }
 
