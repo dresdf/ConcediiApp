@@ -19,7 +19,7 @@ public class DbUtils {
     PreparedStatement statement = null;
     ResultSet rs = null;
 
-    //open a connection and create a statement object
+    //open a connection to the database
     public void openConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -104,6 +104,7 @@ public class DbUtils {
     }
 
     public List retrieveCereri(User currentUser) {
+        openConnection();
         List<Cerere> resultList = new ArrayList<>();
         String sql = "SELECT * FROM requests WHERE userid=?";
         try {
@@ -182,7 +183,6 @@ public class DbUtils {
     }
 
     public boolean aproveOrDenyCerere(String hiddenid, String hiddenidreject) {
-        //TODO:  check jsp to send requestId
         String status = " ";
         int requestID = 0;
 

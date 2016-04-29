@@ -31,15 +31,15 @@
 
             <form class="form-signin" action="${pageContext.request.contextPath}/user/login" method="POST" name="frm">
                 <p class='form-signin-heading error'>${message}</p>
-                <input type="text" name="username" class="form-control" placeholder="Username" required autofocus autocomplete="off" />
-                <input type="password" name="password" class="form-control" placeholder="Password" required />
+                <input type="text" name="username" class="form-control" placeholder="Username" required autofocus autocomplete="off" value="drasec"/>
+                <input type="password" name="password" class="form-control" placeholder="Password" required value="1234"/>
                 <!--<div class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>-->
                 <input class="btn btn-lg btn-primary btn-block" type="submit" value="Conectare">
-                <center><h3>Nu esti inregistrat? <a href="${pageContext.request.contextPath}user/register">Inregistreaza-te</a></h3></center>
+                <center><h3>Nu esti inregistrat? <a href="${pageContext.request.contextPath}/user/register">Inregistreaza-te</a></h3></center>
             </form>
         </div>
 

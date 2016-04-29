@@ -15,8 +15,8 @@
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <title>Cerere Noua de Concediu</title>
-        <link href="<c:url value="/resources/css/base.css" />" rel="stylesheet"> 
-        <script src="<c:url value="/resources/js/main.js" />"></script>
+        <link href="../css/base.css" rel="stylesheet">
+        <script src="../js/main.js"></script>
 
 <!--        <script type="text/javascript">
             $(function () {
@@ -37,9 +37,9 @@
     </head>
     <body>
         <div id="content" class="container">
-            <center><img src="css/img/Jademy.png"/></center>
+            <center><img src="../css/img/Jademy.png"/></center>
             <h1>APLICATIE CONCEDII - Echipa Jademy #8</h1>
-            <a href='${pageContext.request.contextPath}/user/logout'>Deconectare [${currentuser.username}]</a>
+            <a href='${pageContext.request.contextPath}/user/logout'>Deconectare [${currentuser.firstName}]</a>
 
 
             <ul id="tabs" class="nav nav-pills" data-tabs="tabs">
@@ -56,9 +56,9 @@
                         <table class="imagetable">
                             <tr>
                                 <th>ID</th>
-                                <th>PRENUME</th>
+<!--                                <th>PRENUME</th>
                                 <th>NUME</th>
-                                <th>EMAIL</th>
+                                <th>EMAIL</th>-->
                                 <th>TIP CONCEDIU</th>
                                 <th>DATA START</th>
                                 <th>DATA FINAL</th>
@@ -68,13 +68,13 @@
                             <c:forEach items="${listacereri}" var="item">
                                 <tr>
                                     <td>${item.ID}</td>
-                                    <td>${item.firstName}</td>
+<%--                                    <td>${item.firstName}</td>
                                     <td>${item.lastName}</td>
-                                    <td>${item.email}</td>
+                                    <td>${item.email}</td>--%>
                                     <td>${item.tipConcediu}</td>
                                     <td>${item.dataStart}</td>
                                     <td>${item.dataFinal}</td>
-                                    <td>${item.nrZile}</td>
+                                    <td>${item.duration}</td>
                                     <td>${item.status}</td>
                                 </tr>
                             </c:forEach>
@@ -84,7 +84,7 @@
                         <table>
                             <tr>
                                 <td>Utilizator :</td>
-                                <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
+                                <td><input type="text" name="id" id="id" value="username"/></td>
                                 <td rowspan="7"><img src="<c:url value="/resources/profile/${currentuser.poza}" />" width="200" border="1" alt="Profile Picture" /></td>
                             </tr>
                             <tr>
@@ -136,9 +136,9 @@
                         <table class="imagetable">
                             <tr>
                                 <th>ID</th>
-                                <th>PRENUME</th>
+<!--                                <th>PRENUME</th>
                                 <th>NUME</th>
-                                <th>EMAIL</th>
+                                <th>EMAIL</th>-->
                                 <th>TIP CONCEDIU</th>
                                 <th>DATA START</th>
                                 <th>DATA FINAL</th>
@@ -148,13 +148,13 @@
                             <c:forEach items="${listapending}" var="item">
                                 <tr>
                                     <td>${item.ID}</td>
-                                    <td>${item.firstName}</td>
+                                    <%--<td>${item.firstName}</td>
                                     <td>${item.lastName}</td>
-                                    <td>${item.email}</td>
+                                    <td>${item.email}</td>--%>
                                     <td>${item.tipConcediu}</td>
                                     <td>${item.dataStart}</td>
                                     <td>${item.dataFinal}</td>
-                                    <td>${item.nrZile}</td>
+                                    <td>${item.duration}</td>
                                     <td>${item.status}</td>
                                     <td><input type="submit" id="btnApprove" onclick="setHiddenId(${item.ID});" value="Aproba Cererea" /></td> 
                                     <td><input type="submit" id="btnReject" onclick="setHiddenIdReject(${item.ID});" value="Respinge Cererea"/></td> 
@@ -206,7 +206,7 @@
                         <table>
                             <tr>
                                 <td>Utilizator :</td>
-                                <td><input type="text" name="id" id="id" value="${currentuser.username}"/></td>
+                                <td><input type="text" name="id" id="id" value="username"/></td>
                                 <td rowspan="7"><img src="<c:url value="/resources/profile/${currentuser.poza}"/>" width="200" border="1"/></td>
                             </tr>
                             <tr>
@@ -231,7 +231,7 @@
                                 <td></td>
                             </tr> 
                         </table>
-                        <input type="text" name="utilizator" id="utilizator" value="${currentuser.username}"/>
+                        <input type="text" name="utilizator" id="utilizator" value="username"/>
                     </form>
 
                 </div>

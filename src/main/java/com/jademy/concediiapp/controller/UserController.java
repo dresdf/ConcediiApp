@@ -61,7 +61,6 @@ public class UserController {
         String input_email = email.trim();
         String input_username = uname.trim();
         String input_password = pass.trim();
-//        String input_date = datastart;
         Date regDate = new Date();//get current time
 //        try {
 //            regDate = new SimpleDateFormat("yyyy-MM-dd").parse(input_date);
@@ -83,6 +82,6 @@ public class UserController {
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().setAttribute("currentuser", null);
-        return "index";
+        return "forward:/";
     }
 }

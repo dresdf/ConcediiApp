@@ -11,6 +11,7 @@
     <context:component-scan base-package="com.jademy.concediiapp.controller"/>
     <!-- set welcome page -->
     <mvc:view-controller path="/" view-name="index"/>
+    <mvc:view-controller path="/index" view-name="index" />
     
     
     <bean

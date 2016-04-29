@@ -26,7 +26,7 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession s = request.getSession();
         User currentUser = (User)s.getAttribute("currentuser");
-        request.setAttribute("message", currentUser.getUsername() + " a fost deconectat de la aplicatie");
+//        request.setAttribute("message", currentUser.getUsername() + " a fost deconectat de la aplicatie");
         
         s.removeAttribute("currentuser");
         

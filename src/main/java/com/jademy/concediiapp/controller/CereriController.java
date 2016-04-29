@@ -37,15 +37,10 @@ public class CereriController {
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
-        long nrZile = ((DataFinal.getTime() - DataStart.getTime())) / (1000 * 60 * 60 * 24) + 1;
+        long duration = ((DataFinal.getTime() - DataStart.getTime())) / (1000 * 60 * 60 * 24) + 1;
 
-        Cerere crr = new Cerere.Builder().setFirstName(user.getFirstName())
-                .setLastName(user.getLastName())
-                .setUsername(user.getUsername())
-                .setPassword(user.getPassword())
-                .setEmail(user.getEmail())
-                .setTipConcediu(tipConcediu)
-                .setNrZile(Long.toString(nrZile))
+        Cerere crr = new Cerere.Builder().setTipConcediu(tipConcediu)
+                .setDuration((int)duration)
                 .setStatus("INITIATA")
                 .setDataStart(new java.sql.Date(DataStart.getTime()))
                 .setDataFinal(new java.sql.Date(DataFinal.getTime())).build();
