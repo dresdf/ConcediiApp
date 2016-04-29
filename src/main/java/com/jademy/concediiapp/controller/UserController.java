@@ -55,25 +55,25 @@ public class UserController {
 
     //create account and redirect to main. if it fails, redirect to create account page preserving input data, with fail message
     @RequestMapping("/doregister")
-    public ModelAndView register(String first_name, String last_name, String email, String uname, String pass, String datastart, HttpServletRequest request) {
+    public ModelAndView register(String first_name, String last_name, String email, String uname, String pass, HttpServletRequest request) {
         String input_firstName = first_name.trim();
         String input_lastName = last_name.trim();
         String input_email = email.trim();
         String input_username = uname.trim();
         String input_password = pass.trim();
-        Date regDate = new Date();//get current time
-//        try {
-//            regDate = new SimpleDateFormat("yyyy-MM-dd").parse(input_date);
-//        } catch (ParseException ex) {
-//            ex.printStackTrace();
-//        }
+        Date regDate = new Date();
 
         currentUser = dbu.createAccount(input_firstName, input_lastName, input_email, input_username, input_password, regDate);
-        if (currentUser != null) {
+        if (currentUser.getUserID() != -1) {
             request.getSession().setAttribute("currentuser", currentUser);
             mav = new ModelAndView("forward:/main");
         } else {
-            mav = new ModelAndView("fail");
+            mav = new ModelAndView("register");
+            mav.addObject("message", "Username already taken. Already a member? <a href=\"..\\index\">Login</a> ");
+            mav.addObject("first_name", input_firstName);
+            mav.addObject("last_name", input_lastName);
+            mav.addObject("email", input_email);
+            
         }
 
         return mav;
@@ -82,6 +82,6 @@ public class UserController {
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().setAttribute("currentuser", null);
-        return "forward:/";
+        return "redirect:/index";
     }
 }

@@ -18,16 +18,16 @@
         <link href="../css/base.css" rel="stylesheet">
         <script src="../js/main.js"></script>
 
-<!--        <script type="text/javascript">
-            $(function () {
-                $('#datastart').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
-                $('#datastart').datepicker();
-                $('#datafinal').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
-                $('#datafinal').datepicker();
-            });
-        </script>-->
+        <!--        <script type="text/javascript">
+                    $(function () {
+                        $('#datastart').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
+                        $('#datastart').datepicker();
+                        $('#datafinal').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
+                        $('#datafinal').datepicker();
+                    });
+                </script>-->
 
-        
+
         <script type="text/javascript">
             jQuery(function () {
                 jQuery('#tabs li a').tab('show');
@@ -56,9 +56,9 @@
                         <table class="imagetable">
                             <tr>
                                 <th>ID</th>
-<!--                                <th>PRENUME</th>
-                                <th>NUME</th>
-                                <th>EMAIL</th>-->
+                                <!--                                <th>PRENUME</th>
+                                                                <th>NUME</th>
+                                                                <th>EMAIL</th>-->
                                 <th>TIP CONCEDIU</th>
                                 <th>DATA START</th>
                                 <th>DATA FINAL</th>
@@ -67,13 +67,10 @@
                             </tr>
                             <c:forEach items="${listacereri}" var="item">
                                 <tr>
-                                    <td>${item.ID}</td>
-<%--                                    <td>${item.firstName}</td>
-                                    <td>${item.lastName}</td>
-                                    <td>${item.email}</td>--%>
+                                    <td>${item.requestID}</td>
                                     <td>${item.tipConcediu}</td>
                                     <td>${item.dataStart}</td>
-                                    <td>${item.dataFinal}</td>
+                                    <td >${item.dataFinal}</td>
                                     <td>${item.duration}</td>
                                     <td>${item.status}</td>
                                 </tr>
@@ -136,9 +133,9 @@
                         <table class="imagetable">
                             <tr>
                                 <th>ID</th>
-<!--                                <th>PRENUME</th>
-                                <th>NUME</th>
-                                <th>EMAIL</th>-->
+                                <!--                                <th>PRENUME</th>
+                                                                <th>NUME</th>
+                                                                <th>EMAIL</th>-->
                                 <th>TIP CONCEDIU</th>
                                 <th>DATA START</th>
                                 <th>DATA FINAL</th>

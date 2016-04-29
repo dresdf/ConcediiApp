@@ -1,6 +1,7 @@
 $(document).ready(function () {
     $('#id').attr('readonly', true);
     $('#id').addClass('input-disabled');
+    
 
 
 });
@@ -23,6 +24,7 @@ function setHiddenIdReject(val) {
     document.getElementById('hiddenidreject').value = val;
     alert('Cererea de concediu cu numarul ' + val + ' a fost respinsa');
 }
+
 
 
 

@@ -10,7 +10,7 @@
     </head>
     <body>
 
-    <center><img src="<c:url value="/resources/img/Jademy.png"/>" alt="Jademy.png"/></center>
+    <center><img src="<c:url value="/resources/css/img/Jademy.png"/>" alt="Jademy.png"/></center>
 
     <form action="${pageContext.request.contextPath}/user/doregister" method="POST" name="frm" >
         <center><p>INREGISTRARE UTILIZATOR NOU</p></center>
@@ -19,30 +19,28 @@
 
             <tr>
                 <td>Prenume :</td>
-                <td><input type="text" name="first_name" id="first_name" value="${first_name}"/></td>
+                <td><input type="text" name="first_name" id="first_name" value="${first_name}" required autocomplete="off" /></td>
             </tr>
             <tr>
                 <td>Nume :</td>
-                <td><input type="text" name="last_name" id="last_name" value="${last_name}"/></td>
+                <td><input type="text" name="last_name" id="last_name" value="${last_name}" required autocomplete="off" /></td>
             </tr>
             <tr>
                 <td>Email :</td>
-                <td><input type="text" name="email" id="email" value="${email}"/></td>
+                <td><input type="text" name="email" id="email" value="${email}" required autocomplete="off" /></td>
             </tr>
             <tr>
                 <td>Username :</td>
-                <td><input type="text" name="uname" id="uname" value="${uname}"/></td>
+                <td><input type="text" name="uname" id="uname" value="" required autocomplete="off" /></td>
             </tr>
             <tr>
                 <td>Parola :</td>
-                <td><input type="password" name="pass" id="pass" value="${pass}"/></td>
-            </tr>
-            <tr>
-                <td>Data :</td>
-                <td><input type="text" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())%>" name="datastart" id="datastart"/></td>
+                <td><input type="password" name="pass" id="pass" value="" required autocomplete="off" /></td>
             </tr>
             <tr>
                 <td colspan="2" align="center"><input type="submit" value="Inregistreaza"></td>
+               
+                
             </tr>
         </table>
     </form>

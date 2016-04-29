@@ -63,39 +63,50 @@ public class DbUtils {
     public User createAccount(String prenume, String nume, String email, String username, String password, Date date) {
         User currentUser = null;
         openConnection();
-        String sql = "INSERT INTO users(firstname, lastname, email, username, password, regdate, rank) VALUES(?,?,?,?,?,?,'user')";
 
         try {
-            //insert new user
-            statement = conn.prepareStatement(sql);
-            statement.setString(1, prenume);
-            statement.setString(2, nume);
-            statement.setString(3, email);
-            statement.setString(4, username);
-            statement.setString(5, password);
-            statement.setDate(6, new java.sql.Date(date.getTime()));
-            int flag = statement.executeUpdate();
-
-            if (flag == 1) {
-                //get new user and return it
-                sql = "SELECT * FROM users WHERE id=(SELECT MAX(id) FROM users)";
+            statement = conn.prepareStatement("SELECT * FROM users WHERE username=?");
+            statement.setString(1, username);
+            rs = statement.executeQuery();
+            if (!rs.next()) {//username not in use. creation can begin
+                String sql = "INSERT INTO users(firstname, lastname, email, username, password, regdate, rank) VALUES(?,?,?,?,?,?,'user')";
+                //insert new user
                 statement = conn.prepareStatement(sql);
-                rs = statement.executeQuery();
-                rs.next();
-                currentUser = new User.Builder().setUserID(rs.getInt("id"))
-                        .setFirstName(rs.getString("firstname"))
-                        .setLastName(rs.getString("lastname"))
-                        .setEmail(rs.getString("email"))
-                        .setPoza(rs.getString("poza"))
-                        .setRegDate(new Date(rs.getDate("regdate").getTime()))
-                        .setRank(rs.getString("rank")).build();
-            } else {
-                //insert failed. return empty user
-                currentUser = new User(-1);
+                statement.setString(1, prenume);
+                statement.setString(2, nume);
+                statement.setString(3, email);
+                statement.setString(4, username);
+                statement.setString(5, password);
+                statement.setDate(6, new java.sql.Date(date.getTime()));
+                int flag = statement.executeUpdate();
+
+                if (flag == 1) {
+                    //get new user and return it
+                    sql = "SELECT * FROM users WHERE username=?";
+                    statement = conn.prepareStatement(sql);
+                    statement.setString(1, username);
+                    rs = statement.executeQuery();
+                    rs.next();
+                    currentUser = new User.Builder().setUserID(rs.getInt("id"))
+                            .setFirstName(rs.getString("firstname"))
+                            .setLastName(rs.getString("lastname"))
+                            .setEmail(rs.getString("email"))
+                            .setPoza(rs.getString("poza"))
+                            .setRegDate(new Date(rs.getDate("regdate").getTime()))
+                            .setRank(rs.getString("rank")).build();
+                } else {
+                    //insert failed. return empty user
+                    currentUser = new User(-1);
+                }
+                rs.close();
+                statement.close();
+                conn.close();
+            } else {//username exists. attempt login
+                rs.close();
+                statement.close();
+                conn.close();
+                currentUser = checklogin(username, password);
             }
-            rs.close();
-            statement.close();
-            conn.close();
         } catch (SQLException ex) {
             throw new RuntimeException("createAccount failed " + ex);
         }
@@ -113,7 +124,7 @@ public class DbUtils {
             rs = statement.executeQuery();
 
             while (rs.next()) {
-                Cerere crr = new Cerere.Builder().setID(rs.getInt("cerereid"))
+                Cerere crr = new Cerere.Builder().setID(rs.getInt("requestid"))
                         .setTipConcediu(rs.getString("tipconcediu"))
                         .setDuration(rs.getInt("duration"))
                         .setStatus(rs.getString("status"))
