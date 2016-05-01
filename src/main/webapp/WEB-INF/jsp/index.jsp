@@ -16,7 +16,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="js/index.js"></script>
 
-        <title>PAGINA LOGIN - Echipa Jademy #8</title>
+        <title>ConcediiApp - Login</title>
 
 
 
