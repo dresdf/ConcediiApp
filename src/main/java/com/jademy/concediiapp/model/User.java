@@ -11,37 +11,11 @@ public class User {
     private String poza;
     private String rank;
     private Date regDate;
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPoza() {
-        return poza;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public Date getRegDate() {
-        return regDate;
-    }
+    private String username;
+    private String password;
 
     private User() {
-        //empty
+        //empty 
     }
 
     //user for login check
@@ -49,43 +23,127 @@ public class User {
         this.userID = ID;
     }
 
-    //contains all setters
-    public static class Builder {
+    //<editor-fold defaultstate="collapsed" desc="getters and setters">
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPoza() {
+        return poza;
+    }
+
+    public void setPoza(String poza) {
+        this.poza = poza;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+//</editor-fold>
+    //builder for User
+    public static class UserBuilder {
 
         User user = new User();
 
-        public Builder setUserID(int userID) {
-            user.userID = userID;
+        public UserBuilder setUserID(int userID) {
+            user.setUserID(userID);
             return this;
         }
 
-        public Builder setFirstName(String firstName) {
-            user.firstName = firstName;
+        public UserBuilder setFirstName(String firstName) {
+            user.setFirstName(firstName);
             return this;
         }
 
-        public Builder setLastName(String lastName) {
-            user.lastName = lastName;
+        public UserBuilder setLastName(String lastName) {
+            user.setLastName(lastName);
             return this;
         }
 
-        public Builder setEmail(String email) {
-            user.email = email;
+        public UserBuilder setEmail(String email) {
+            user.setEmail(email);
             return this;
         }
 
-        public Builder setPoza(String poza) {
-            user.poza = poza;
+        public UserBuilder setPoza(String poza) {
+            user.setPoza(poza);
             return this;
         }
 
-        public Builder setRank(String rank) {
-            user.rank = rank;
+        public UserBuilder setRank(String rank) {
+            user.setRank(rank);
             return this;
         }
-        
-        public Builder setRegDate(Date regDate) {
-            user.regDate = regDate;
+
+        public UserBuilder setRegDate(Date regDate) {
+            user.setRegDate(regDate);
+            return this;
+        }
+
+        public UserBuilder setUsername(String username) {
+            user.setUsername(username);
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            user.setPassword(password);
             return this;
         }
 

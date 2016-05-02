@@ -1,7 +1,7 @@
 package com.jademy.concediiapp.controller;
 
 import com.jademy.concediiapp.helper.DbUtils;
-import com.jademy.concediiapp.model.Cerere;
+import com.jademy.concediiapp.model.Application;
 import com.jademy.concediiapp.model.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +39,7 @@ public class CereriController {
         }
         long duration = ((DataFinal.getTime() - DataStart.getTime())) / (1000 * 60 * 60 * 24) + 1;
 
-        Cerere crr = new Cerere.Builder().setTipConcediu(tipConcediu)
+        Application crr = new Application.Builder().setTipConcediu(tipConcediu)
                 .setDuration((int)duration)
                 .setStatus("INITIATA")
                 .setDataStart(new java.sql.Date(DataStart.getTime()))

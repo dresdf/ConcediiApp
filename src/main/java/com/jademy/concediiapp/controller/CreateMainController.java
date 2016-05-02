@@ -38,7 +38,17 @@ public class CreateMainController {
             mav.addObject("listapending", pending);
             mav.addObject("message", message);
         } else {
+            String message = (String) request.getAttribute("message");
+            List cereri = null;
+            List pending = null;
+
+            cereri = dbu.retrieveCereri(currentUser);
+            pending = dbu.retrieveAprovalPending(currentUser);
+            
             mav.setViewName("userMain");
+            mav.addObject("listacereri", cereri);
+            mav.addObject("listapending", pending);
+            mav.addObject("message", message);
         }
 
         return mav;

@@ -1,7 +1,7 @@
 package com.jademy.concediiapp.helper;
 
 import com.jademy.concediiapp.model.User;
-import com.jademy.concediiapp.model.Cerere;
+import com.jademy.concediiapp.model.Application;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,7 +43,7 @@ public class DbUtils {
             rs = statement.executeQuery();
             if (rs.next()) {
                 //user exists. return User object 
-                userResult = new User.Builder().setUserID(rs.getInt("userid"))
+                userResult = new User.UserBuilder().setUserID(rs.getInt("userid"))
                         .setFirstName(rs.getString("firstname"))
                         .setLastName(rs.getString("lastname"))
                         .setEmail(rs.getString("email"))
@@ -87,7 +87,7 @@ public class DbUtils {
                     statement.setString(1, username);
                     rs = statement.executeQuery();
                     rs.next();
-                    currentUser = new User.Builder().setUserID(rs.getInt("id"))
+                    currentUser = new User.UserBuilder().setUserID(rs.getInt("id"))
                             .setFirstName(rs.getString("firstname"))
                             .setLastName(rs.getString("lastname"))
                             .setEmail(rs.getString("email"))
@@ -116,7 +116,7 @@ public class DbUtils {
 
     public List retrieveCereri(User currentUser) {
         openConnection();
-        List<Cerere> resultList = new ArrayList<>();
+        List<Application> resultList = new ArrayList<>();
         String sql = "SELECT * FROM requests WHERE userid=?";
         try {
             statement = conn.prepareStatement(sql);
@@ -124,7 +124,7 @@ public class DbUtils {
             rs = statement.executeQuery();
 
             while (rs.next()) {
-                Cerere crr = new Cerere.Builder().setID(rs.getInt("requestid"))
+                Application crr = new Application.Builder().setID(rs.getInt("requestid"))
                         .setTipConcediu(rs.getString("tipconcediu"))
                         .setDuration(rs.getInt("duration"))
                         .setStatus(rs.getString("status"))
@@ -143,7 +143,7 @@ public class DbUtils {
         return resultList;
     }
 
-    public boolean recordCereri(Cerere cerere) {
+    public boolean recordCereri(Application cerere) {
         openConnection();
         String sql = "INSERT INTO requests(tipconcediu,datastart,datafinal,duration,status) VALUES(?,?,?,?,?)";
 
@@ -165,7 +165,7 @@ public class DbUtils {
 
     public List retrieveAprovalPending(User currentUser) {
         openConnection();
-        List<Cerere> resultList = new ArrayList<>();
+        List<Application> resultList = new ArrayList<>();
         String sql = "SELECT * FROM requests WHERE userid=? AND status=?";
 
         try {
@@ -175,7 +175,7 @@ public class DbUtils {
 
             rs = statement.executeQuery();
             while (rs.next()) {
-                Cerere crr = new Cerere.Builder().setID(rs.getInt("cerereid"))
+                Application crr = new Application.Builder().setID(rs.getInt("cerereid"))
                         .setTipConcediu(rs.getString("tipconcediu"))
                         .setDuration(rs.getInt("duration"))
                         .setStatus(rs.getString("status"))
