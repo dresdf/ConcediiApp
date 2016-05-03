@@ -87,7 +87,7 @@ public class DbUtils {
                     statement.setString(1, username);
                     rs = statement.executeQuery();
                     rs.next();
-                    currentUser = new User.UserBuilder().setUserID(rs.getInt("id"))
+                    currentUser = new User.UserBuilder().setUserID(rs.getInt("userid"))
                             .setFirstName(rs.getString("firstname"))
                             .setLastName(rs.getString("lastname"))
                             .setEmail(rs.getString("email"))
@@ -172,6 +172,35 @@ public class DbUtils {
             statement = conn.prepareStatement(sql);
             statement.setInt(1, currentUser.getUserID());
             statement.setString(2, "INITIATA");
+
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Application crr = new Application.Builder().setID(rs.getInt("cerereid"))
+                        .setTipConcediu(rs.getString("tipconcediu"))
+                        .setDuration(rs.getInt("duration"))
+                        .setStatus(rs.getString("status"))
+                        .setDataStart(new Date(rs.getDate("datastart").getTime()))
+                        .setDataFinal(new Date(rs.getDate("datafinal").getTime())).build();
+                resultList.add(crr);
+            }
+            rs.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return resultList;
+    }
+
+    public List retrieveAllAprovalPending() {
+        openConnection();
+        List<Application> resultList = new ArrayList<>();
+        String sql = "SELECT * FROM requests WHERE status=?";
+
+        try {
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, "INITIATA");
 
             rs = statement.executeQuery();
             while (rs.next()) {

@@ -26,7 +26,7 @@
             <span id="clock" name="clock">Starting...</span>
             <div style="clear: both"></div>
             <center>
-                <h2 id="title" class="form-signin-heading">Vacation Planner 2.4</h2>
+                <h2 id="title" class="form-signin-heading">Vacation Administration</h2>
             </center>
 
             <form class="form-signin" action="${pageContext.request.contextPath}/user/login" method="POST" name="frm">

@@ -2,10 +2,7 @@ package com.jademy.concediiapp.controller;
 
 import com.jademy.concediiapp.helper.DbUtils;
 import com.jademy.concediiapp.model.User;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,13 +26,16 @@ public class CreateMainController {
             String message = (String) request.getAttribute("message");
             List cereri = null;
             List pending = null;
+            List allPending = null;
 
             cereri = dbu.retrieveCereri(currentUser);
             pending = dbu.retrieveAprovalPending(currentUser);
+            allPending = dbu.retrieveAllAprovalPending();
 
-            mav.setViewName("main");
+            mav.setViewName("adminMain");
             mav.addObject("listacereri", cereri);
             mav.addObject("listapending", pending);
+            mav.addObject("listaaprobare", allPending);
             mav.addObject("message", message);
         } else {
             String message = (String) request.getAttribute("message");

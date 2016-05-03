@@ -1,27 +1,41 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.jfree.util.Rotation"%>
+<%@page import="org.jfree.chart.plot.PiePlot3D"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page session="true" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-        <link href="../css/main.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
 
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
 
-        <title>User Main Page</title>
+        <title>Cerere Noua de Concediu</title>
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+        <!--        <script type="text/javascript">
+                    $(function () {
+                        $('#datastart').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
+                        $('#datastart').datepicker();
+                        $('#datafinal').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
+                        $('#datafinal').datepicker();
+                    });
+                </script>-->
+
+
+        <script type="text/javascript">
+            jQuery(function () {
+                jQuery('#tabs li a').tab('show');
+            })
+        </script>
+
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -56,12 +70,12 @@
             </div>
         </nav>
 
-        <!--content-->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 col-md-2 sidebar">
                     <ul class="nav nav-sidebar nav-tabs nav-stacked">
                         <li><a href="#cerere" data-toggle="tab"> Cerere noua <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#aprobare" data-toggle="tab">Aprobare</a></li>
                         <li><a href="#istoric" data-toggle="tab">Istoric</a></li>
                         <li><a href="#rapoarte" data-toggle="tab">Rapoarte</a></li>
                         <li><a href="#profil" data-toggle="tab">Profil</a></li>
@@ -70,7 +84,7 @@
                 <div  class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main tab-content">
                     <center><h1 class="page-header">Dashboard</h1></center>
 
-                    <!-- Cerere -->
+                    <!-- cerere -->
                     <div id="cerere" class="row placeholders table-responsive  tab-pane fade">
                         <p>Situatia concediilor neaprobate la data: <%= (new java.util.Date())%></p>
                         <table class="table table-striped">
@@ -116,7 +130,38 @@
                             <p style="color: coral">${message}</p>
                             <input type="submit" class="btn btn-default" value="Depune Cererea">
                         </form>
+                    </div>
 
+                    <!-- aprobare -->
+                    <div id="aprobare" class="table-responsive tab-pane fade">
+                        <form action="${pageContext.request.contextPath}/cerere/aproba" method="post" name="frm1">
+                            <h2 class="sub-header">Aprobare Concedii</h2>
+                            <p>Situatia concediilor pana la data: <%= (new java.util.Date())%></p>
+                            <table class="imagetable table table-striped">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>TIP CONCEDIU</th>
+                                    <th>DATA START</th>
+                                    <th>DATA FINAL</th>
+                                    <th>ZILE</th>
+                                    <th>STATUS</th>
+                                </tr>
+                                <c:forEach items="${listaaprobare}" var="item">
+                                    <tr>
+                                        <td>${item.requestID}</td>
+                                        <td>${item.tipConcediu}</td>
+                                        <td>${item.dataStart}</td>
+                                        <td>${item.dataFinal}</td>
+                                        <td>${item.duration}</td>
+                                        <td>${item.status}</td>
+                                        <td><input type="submit" id="btnApprove" onclick="setHiddenId(${item.requestID});" value="Aproba Cererea" /></td> 
+                                        <td><input type="submit" id="btnReject" onclick="setHiddenIdReject(${item.requestID});" value="Respinge Cererea"/></td> 
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <input type="hidden" name="hiddenid" id="hiddenid"/>   
+                            <input type="hidden" name="hiddenidreject" id="hiddenidreject"/>
+                        </form>
                     </div>
 
                     <!-- Istoric -->
@@ -145,31 +190,39 @@
                         </table>
                     </div>
 
-                    <!-- Rapoarte -->
-                    <div id="rapoarte" class="row placeholders tab-pane fade">
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
-                        <div class="col-xs-6 col-sm-3 placeholder">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                            <h4>Label</h4>
-                            <span class="text-muted">Something else</span>
-                        </div>
+
+                    <!-- rapoarte -->
+                    <div id="rapoarte"  class="tab-pane">
+                        <%--
+                        <form method="post">
+                            <%@ page import="java.awt.*" %>
+                            <%@ page import="java.io.*" %>
+                            <%@ page import="org.jfree.chart.*" %>
+                            <%@ page import="org.jfree.chart.entity.*" %>
+                            <%@ page import ="org.jfree.data.general.*"%>
+                            <%
+                                DbUtils dbu = new DbUtils();
+                                DefaultPieDataset dataset = dbu.showPieChart(currentUser);
+
+                    JFreeChart chart = ChartFactory.createPieChart("Raport concedii efectuate - " + currentUser.getUsername(), dataset, true, true, false);
+                    try {
+                        final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+//                    final File file1 = new File(getServletContext().getRealPath(".") + "/" + session.getAttribute("userid") + "_piechart.png");
+                        final File file1 = new File(getServletContext().getRealPath("/") + currentUser.getUsername() + "_piechart.png");
+
+                        System.out.println(getServletContext().getRealPath("."));
+                        ChartUtilities.saveChartAsPNG(file1, chart, 500, 400, info);
+                    } catch (Exception e) {
+                        out.println(e);
+                    }
+                %>      
+                <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
+                <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
+            </form>
+                        --%>
                     </div>
 
-                    <!-- Profil -->
+                    <!-- profil -->
                     <div id="profil" class="row placeholders tab-pane fade">
                         <form action="" method="post" name="frm2" enctype="multipart/form-data">
                             <p>PROFIL UTILIZATOR</p>
@@ -199,6 +252,7 @@
                             </table>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
