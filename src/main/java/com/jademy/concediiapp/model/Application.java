@@ -1,35 +1,15 @@
 package com.jademy.concediiapp.model;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "requests")
 public class Application {
 
-    @Id
-    @Column(name = "requestid", nullable = false)
     private int requestID;
-
-    @Column(name = "tipconcediu", nullable = false)
     private String tipConcediu;
-
-    @Column(name = "duration", nullable = false)
     private int duration;
-
-    @Column(name = "status", nullable = false)
     private String status;
-
-    @Column(name = "datastart", nullable = false)
     private Date dataStart;
-
-    @Column(name = "datafinal", nullable = false)
     private Date dataFinal;
-
-    @Column(name = "userid", nullable = false)
     private int userID;
 
     //<editor-fold defaultstate="collapsed" desc="getters and setters">
@@ -91,7 +71,7 @@ public class Application {
 
 //</editor-fold>
     public Application() {
-        //empty for Hibernate
+        //empty 
     }
 
     //builder for Application

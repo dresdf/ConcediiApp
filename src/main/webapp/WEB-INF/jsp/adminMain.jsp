@@ -20,16 +20,6 @@
 
         <title>Cerere Noua de Concediu</title>
 
-        <!--        <script type="text/javascript">
-                    $(function () {
-                        $('#datastart').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
-                        $('#datastart').datepicker();
-                        $('#datafinal').datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", new Date());
-                        $('#datafinal').datepicker();
-                    });
-                </script>-->
-
-
         <script type="text/javascript">
             jQuery(function () {
                 jQuery('#tabs li a').tab('show');
@@ -52,8 +42,8 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#cerere" data-toggle="tab">Cerere noua</a></li>
-                        <li><a href="#istoric" data-toggle="tab">Istoric</a></li>
-                        <li><a href="#rapoarte" data-toggle="tab">Rapoarte</a></li>
+                        <li><a href="#aprobare" data-toggle="tab">Istoric</a></li>
+                        <li><a href="#istoric" data-toggle="tab">Rapoarte</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profil <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -77,7 +67,6 @@
                         <li><a href="#cerere" data-toggle="tab"> Cerere noua <span class="sr-only">(current)</span></a></li>
                         <li><a href="#aprobare" data-toggle="tab">Aprobare</a></li>
                         <li><a href="#istoric" data-toggle="tab">Istoric</a></li>
-                        <li><a href="#rapoarte" data-toggle="tab">Rapoarte</a></li>
                         <li><a href="#profil" data-toggle="tab">Profil</a></li>
                     </ul>
                 </div>
@@ -179,7 +168,7 @@
                             </tr>
                             <c:forEach items="${listacereri}" var="item">
                                 <tr>
-                                    <td>${item.ID}</td>
+                                    <td>${item.requestID}</td>
                                     <td>${item.tipConcediu}</td>
                                     <td>${item.dataStart}</td>
                                     <td>${item.dataFinal}</td>
@@ -188,38 +177,6 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                    </div>
-
-
-                    <!-- rapoarte -->
-                    <div id="rapoarte"  class="tab-pane">
-                        <%--
-                        <form method="post">
-                            <%@ page import="java.awt.*" %>
-                            <%@ page import="java.io.*" %>
-                            <%@ page import="org.jfree.chart.*" %>
-                            <%@ page import="org.jfree.chart.entity.*" %>
-                            <%@ page import ="org.jfree.data.general.*"%>
-                            <%
-                                DbUtils dbu = new DbUtils();
-                                DefaultPieDataset dataset = dbu.showPieChart(currentUser);
-
-                    JFreeChart chart = ChartFactory.createPieChart("Raport concedii efectuate - " + currentUser.getUsername(), dataset, true, true, false);
-                    try {
-                        final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-//                    final File file1 = new File(getServletContext().getRealPath(".") + "/" + session.getAttribute("userid") + "_piechart.png");
-                        final File file1 = new File(getServletContext().getRealPath("/") + currentUser.getUsername() + "_piechart.png");
-
-                        System.out.println(getServletContext().getRealPath("."));
-                        ChartUtilities.saveChartAsPNG(file1, chart, 500, 400, info);
-                    } catch (Exception e) {
-                        out.println(e);
-                    }
-                %>      
-                <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
-                <img src="${currentuser.username}_piechart.png" width="500" height="400" border="0" usemap="#chart">
-            </form>
-                        --%>
                     </div>
 
                     <!-- profil -->
@@ -239,15 +196,6 @@
                                 <tr>
                                     <td>Email :</td>
                                     <td><input type="text" name="email" value="${currentuser.email}"/></td>
-                                </tr> 
-                                <tr>
-                                    <td colspan="2"><input type="file" name="file" disabled/></td>
-                                </tr> 
-                                <tr>
-                                    <td colspan="2"><input type="submit" value="Actualizare" disabled/></td>
-                                </tr> 
-                                <tr>
-                                    <td></td>
                                 </tr> 
                             </table>
                         </form>

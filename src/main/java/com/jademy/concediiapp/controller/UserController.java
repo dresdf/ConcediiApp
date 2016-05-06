@@ -23,6 +23,7 @@ public class UserController {
 
     //login the user. if it fails, redirect to login page
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+
     public ModelAndView login(String username, String password, String submitButton, HttpServletRequest request) {
         String input_username = username.trim();
         String input_password = password.trim();
@@ -42,8 +43,8 @@ public class UserController {
     //redirect from login page to create account page
     @RequestMapping("/register")
     public String goToRegister(String source) {
-            return "register";
-    
+        return "register";
+
     }
 
     //create account and redirect to main. if it fails, redirect to create account page preserving input data, with fail message
@@ -77,4 +78,5 @@ public class UserController {
         request.getSession().setAttribute("currentuser", null);
         return "redirect:/";
     }
+
 }
